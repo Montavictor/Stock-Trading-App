@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  namespace :admin do
+    get "users/index"
+    get "users/show"
+  end
   get "pages/index"
   devise_for :users
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
@@ -12,14 +16,17 @@ Rails.application.routes.draw do
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
 
   # Defines the root path route ("/")
-  resource :pages 
+  resources :pages 
 
-  resource :users do
-    resource :stocks
-    resource :transactions
+  namespace :admin do
+    resources :users
+  end
+
+  resources :users do
+    resources :stocks
+    resources :transactions
   end
  
-  
   root "pages#index"
 
 end
