@@ -19,13 +19,11 @@ Rails.application.routes.draw do
   resources :pages 
 
   namespace :admin do
-    resources :users
-  end
-
-  resources :users do
     resources :stocks
     resources :transactions
   end
+  resources :stocks
+  resources :transactions
  
   root "pages#index"
 
