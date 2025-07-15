@@ -15,8 +15,10 @@ Rails.application.routes.draw do
   resources :pages 
 
   namespace :admin do
-    resources :stocks
-    resources :transactions
+    resources :users do
+      resources :stocks
+      resources :transactions
+    end
   end
   resources :stocks
   resources :transactions
