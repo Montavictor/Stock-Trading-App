@@ -5,6 +5,10 @@ class ApplicationController < ActionController::Base
   #addition of ne fields in registration form
   before_action :configure_permitted_parameters, if: :devise_controller?
 
+  def after_sign_in_path_for(user)
+    user.is_admin? ? admin_categories_path : root_path
+  end
+
   protected
 
   def configure_permitted_parameters

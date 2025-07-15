@@ -2,6 +2,9 @@ class User < ApplicationRecord
   #runs method before creation of new record
   before_create :set_defaults 
 
+  has_many :stocks
+  has_many :transactions
+
   # Include default devise modules. Others available are:
   # :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,

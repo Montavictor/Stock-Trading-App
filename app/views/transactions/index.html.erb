@@ -1,0 +1,29 @@
+<h1>index</h1>
+
+<h2> Current balance: <%= current_user.balance %> </h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Transaction</th>
+      <th>Company Name</th>
+      <th>Stock Price</th>
+      <th>Quantity</th>
+      <th>Total Price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @transactions.each do |transaction| %>
+      <tr>
+        <td><%= transaction.transaction_type %></td>
+        <td><%= transaction.company_name %></td>
+        <td><%= transaction.stock_price %></td> 
+        <td><%= transaction.quantity %></td> 
+        <td><%= transaction.total_price %></td> 
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to "Buy", "/search" %>
+<%= link_to "Stocks", stocks_path %>

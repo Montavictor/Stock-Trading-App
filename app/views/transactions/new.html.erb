@@ -1,0 +1,29 @@
+<h1>Balance:<%= @balance%></h1>
+
+<%= form_with model: @transaction do |form| %>
+  <div>
+    <%= form.label :company_name %><br>
+    <%= form.text_field :company_name, value:@symbol %>
+  </div>
+
+  <div>
+    <%= form.label :stock_price %><br>
+    <%= form.text_area :stock_price, value: @stock_price %>
+  </div>
+
+  <div>
+    <%= form.label :quantity %><br>
+    <%= form.text_area :quantity, value: @quantity %>
+  </div>
+
+   <div>
+    <%= form.label :total_price %><br>
+    <%= form.text_area :total_price, value: @total_price %>
+  </div>
+
+  <%= form.hidden_field :transaction_type, value: "Buy" %>
+
+  <div>
+    <%= form.submit "Buy stocks" %>
+  </div>
+<% end %>

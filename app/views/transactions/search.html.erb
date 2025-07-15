@@ -1,0 +1,5 @@
+<%= form_with url: input_quantity_path, method: :get do |form| %>
+  <%= form.label :symbol, "Symbol:" %>
+  <%= form.search_field :symbol %>
+  <%= form.submit "Search" %>
+<% end %> 

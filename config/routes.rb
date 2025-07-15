@@ -21,6 +21,8 @@ Rails.application.routes.draw do
 
   resources :stocks
   resources :transactions
+  get '/input_quantity' => 'transactions#quantity'
+  get '/search' => 'transactions#search'
  
-  root "pages#index"
+  root "transactions#index"
 end
