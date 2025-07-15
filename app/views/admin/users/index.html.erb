@@ -1,0 +1,30 @@
+<h1>Admin Page</h1>
+
+<table border="1" cellpadding="8" cellspacing="0">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Username</th>
+      <th>Email</th>
+      <th>Balance</th>
+      <th>Status</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @users.each do |user| %>
+      <% unless user.is_admin? %>
+        <tr>
+          <td><%= user.id %></td>
+          <td><%= user.username %></td>
+          <td><%= user.email %></td>
+          <td><%= user.balance %></td>
+          <td><%= user.status ? "Approved" : "Pending" %></td>
+          <td>
+          
+          </td>
+        </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>
