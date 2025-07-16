@@ -17,8 +17,8 @@ class User < ApplicationRecord
   private 
 
   def set_defaults
-    self.is_admin = false
-    self.balance = 1000000
-    self.status = false
+    self.is_admin = false if is_admin.nil?
+    self.balance = 1000000 if balance.nil?
+    self.status = false if status.nil?
   end
 end

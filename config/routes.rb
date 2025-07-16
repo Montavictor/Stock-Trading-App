@@ -15,9 +15,13 @@ Rails.application.routes.draw do
   resources :pages 
 
   namespace :admin do
+  # transactions of ALL users  
+    get "pending", controller: "users", action: :pending
+    resources :transactions, only: [:index, :show]
     resources :users do
       resources :stocks
-      resources :transactions
+      # transactions of Specific User
+      resources :transactions, only: [:index, :show]
     end
   end
   resources :stocks

@@ -1,2 +1,42 @@
 <h1>Admin::Transactions#index</h1>
-<p>Find me in app/views/admin/transactions/index.html.erb</p>
+<table border="1" cellpadding="8" cellspacing="0">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Username</th>
+      <th>Company Name</th>
+      <th>Quantity</th>
+      <th>Stock Price</th>
+      <th>Total Price</th>
+    </tr>
+  </thead>
+  <tbody>
+  <% if @transactions.any? %>
+    <% @transactions.each do |trans| %>
+      <tr>
+        <td><%= trans.id %></td>
+          <td><%= trans.user.username %></td>
+          <td><%= trans.transaction_type %></td>
+          <td><%= trans.company_name %></td>
+          <td><%= trans.quantity %></td>
+          <td><%= trans.stock_price %></td>
+          <td><%= trans.total_price %></td>
+          <td>
+          <%= link_to 'Show', admin_user_path(user), class: "btn btn-sm btn-outline-primary" %>
+          <%= link_to 'Edit', edit_admin_user_path(user), class: "btn btn-sm btn-outline-primary" %>
+          <%= link_to 'Delete', admin_user_path(user), data: {
+                    turbo_method: :delete,
+                    turbo_confirm: "Are you sure?"
+                  } %>
+          </td>
+      </tr>
+    <% end %>
+  <% else %>
+    <tr>
+      <td colspan="6" class="text-center">
+        <h1>No transactions yet</h1>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

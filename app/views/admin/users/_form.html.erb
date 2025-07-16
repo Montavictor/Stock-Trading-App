@@ -1,0 +1,76 @@
+<%= form_with model: [:admin, @user] ,  class: "form" do |form| %>
+  <label>
+    Email:
+    <%= form.email_field :email, placeholder: "Enter your email", required: true %>
+  </label>
+  <% @user.errors.full_messages_for(:email).each do |message| %>
+      <div class="error-message"><%= message %></div>
+  <% end %>
+  <br><br>
+  <label> 
+    Username:
+    <%= form.text_field :username, required: true %>
+  </label>
+  <% @user.errors.full_messages_for(:username).each do |message| %>
+      <div class="error-message"><%= message %></div>
+  <% end %>
+  <br><br>
+  <label>
+    Password:
+    <%= form.password_field :password, required: true %>
+  </label>
+  <% @user.errors.full_messages_for(:password).each do |message| %>
+      <div class="error-message"><%= message %></div>
+  <% end %>
+  <br><br>
+
+  <label>
+    Confirm Password:
+    <%= form.password_field :password_confirmation, required: true %>
+  </label>
+  <% @user.errors.full_messages_for(:password_confirmation).each do |message| %>
+      <div class="error-message"><%= message %></div>
+  <% end %>
+    <br><br>
+  <label> 
+    Last Name:
+    <%= form.text_field :last_name, required: true %>
+  </label>
+  <% @user.errors.full_messages_for(:last_name).each do |message| %>
+      <div class="error-message"><%= message %></div>
+  <% end %>
+  <label>
+    First Name:
+    <%= form.text_field :first_name, required: true %>
+  </label>
+  
+  <% @user.errors.full_messages_for(:first_name).each do |message| %>
+      <div class="error-message"><%= message %></div>
+  <% end %>
+  <br><br>
+  <label>
+    Role:
+    <%= form.select :is_admin, [["User", false], ["Admin", true]], prompt: "Select Role" %>
+  </label>
+   <% @user.errors.full_messages_for(:is_admin).each do |message| %>
+      <div class="error-message"><%= message %></div>
+  <% end %>
+  <br><br>
+  <label>
+    Status:
+    <%= form.select :status, [["Pending", false], ["Approved", true]], prompt: "Select Status" %>
+  </label>
+    <% @user.errors.full_messages_for(:status).each do |message| %>
+      <div class="error-message"><%= message %></div>
+    <% end %>
+  <br><br>
+  <label>
+    Balance:
+    <%= form.number_field :balance, class: "form-control", step: 0.01, placeholder: "Enter Balance", required: true %>
+  </label>
+    <% @user.errors.full_messages_for(:balance).each do |message| %>
+      <div class="error-message"><%= message %></div>
+    <% end %>
+  <br><br>
+  <%= form.submit "Submit" %>
+<% end %>

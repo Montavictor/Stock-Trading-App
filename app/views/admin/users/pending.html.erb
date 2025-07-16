@@ -1,4 +1,4 @@
-<h1>Admin Page</h1>
+<h1>Pending Page</h1>
 
 <table border="1" cellpadding="8" cellspacing="0">
   <thead>
@@ -13,7 +13,7 @@
   </thead>
   <tbody>
     <% @users.each do |user| %>
-      <% unless user.is_admin? %>
+      <% if !user.status && !user.is_admin? %>
         <tr>
           <td><%= user.id %></td>
           <td><%= user.username %></td>
@@ -34,5 +34,3 @@
   </tbody>
 </table>
 
-<%= link_to 'Create User', new_admin_user_path %>
-<%= link_to 'Transactions', admin_transactions_path %>
