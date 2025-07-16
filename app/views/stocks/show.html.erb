@@ -1,0 +1,6 @@
+<p> Company: <%= @stock.company_name %> </p>
+<p> Quantity: <%= @stock.quantity %> </p>
+<p> Current Stock Price: <%= @stock_price %> </p>
+
+<%= link_to "Back", stocks_path %>
+<%= link_to "Sell", input_quantity_path(symbol: @stock.company_name, stock_quantity: @stock.quantity, transaction_type: "Sell") %>

@@ -1,5 +1,8 @@
 <%= form_with url: input_quantity_path, method: :get do |form| %>
   <%= form.label :symbol, "Symbol:" %>
   <%= form.search_field :symbol %>
+  <%= form.hidden_field :transaction_type, value: "Buy" %>
   <%= form.submit "Search" %>
 <% end %> 
+
+<%= link_to "Back to dashboard", transactions_path %>
