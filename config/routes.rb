@@ -19,6 +19,9 @@ Rails.application.routes.draw do
     get "pending", controller: "users", action: :pending
     resources :transactions, only: [:index, :show]
     resources :users do
+      member do
+        patch :approve
+      end
       resources :stocks
       # transactions of Specific User
       resources :transactions, only: [:index, :show]
