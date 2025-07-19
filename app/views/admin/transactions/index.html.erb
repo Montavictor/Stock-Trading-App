@@ -26,7 +26,6 @@
           <td class="border px-4 py-2"><%= number_to_currency(trans.total_price) %></td>
           <td class="border px-4 py-2 space-x-2">
             <%= link_to 'User', admin_user_path(trans.user), class: "bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded" %>
-            <%= link_to 'Edit', edit_admin_transaction_path(trans), class: "bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded" %>
             <%= link_to 'Delete', admin_transaction_path(trans), data: {
                   turbo_method: :delete,
                   turbo_confirm: "Are you sure you want to delete this transaction?"
