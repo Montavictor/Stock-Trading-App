@@ -32,5 +32,5 @@ Rails.application.routes.draw do
   get '/input_quantity' => 'transactions#quantity'
   get '/search' => 'transactions#search'
  
-  root "transactions#index"
+  root "pages#index"
 end
