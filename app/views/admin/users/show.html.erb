@@ -1,29 +1,30 @@
-<h1>Admin::Users#show</h1>
-<table border="1" cellpadding="8" cellspacing="0">
+<h1 class="text-2xl font-bold mb-4">User Details</h1>
+
+<table class="table-auto border-collapse border border-gray-300 w-full">
   <thead>
-    <tr>
-      <th>ID</th>
-      <th>Username</th>
-      <th>Email</th>
-      <th>Balance</th>
-      <th>Status</th>
-      <th>Actions</th>
+    <tr class="bg-gray-100">
+      <th class="border px-4 py-2">ID</th>
+      <th class="border px-4 py-2">Username</th>
+      <th class="border px-4 py-2">Email</th>
+      <th class="border px-4 py-2">Balance</th>
+      <th class="border px-4 py-2">Status</th>
+      <th class="border px-4 py-2">Actions</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-    <td><%= @user.id %></td>
-    <td><%= @user.username %></td>
-    <td><%= @user.email %></td>
-    <td><%= @user.balance %></td>
-    <td><%= @user.status ? "Approved" : "Pending" %></td>
-    <td>
-    <%= link_to 'Edit', edit_admin_user_path(@user), class: "btn btn-sm btn-outline-primary" %>
-    <%= link_to 'Delete', admin_user_path(@user), data: {
-                    turbo_method: :delete,
-                    turbo_confirm: "Are you sure?"
-                  } %>
-          </td>
-        </tr>
+      <td class="border px-4 py-2"><%= @user.id %></td>
+      <td class="border px-4 py-2"><%= @user.username %></td>
+      <td class="border px-4 py-2"><%= @user.email %></td>
+      <td class="border px-4 py-2"><%= number_to_currency(@user.balance, unit: "$") %></td>
+      <td class="border px-4 py-2"><%= @user.status ? "✅ Approved" : "⏳ Pending" %></td>
+      <td class="border px-4 py-2 space-x-2">
+        <%= link_to 'Edit', edit_admin_user_path(@user), class: "bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded" %>
+        <%= link_to 'Delete', admin_user_path(@user), data: {
+              turbo_method: :delete,
+              turbo_confirm: "Are you sure?"
+            }, class: "bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded" %>
+      </td>
+    </tr>
   </tbody>
 </table>

@@ -22,8 +22,18 @@ class Admin::UsersController < ApplicationController
     end 
   end
   
+  def approve 
+    @user = User.find(params[:id])
+    if @user.update(status: true)
+      flash[:success] = "User Approved"
+    else
+      flash[:error] = "Failed to approve user"
+    end
+    redirect_to admin_pending_path
+  end
+
   def pending
-    @users = User.all
+    @users = User.where(status: false, is_admin: false)
   end
 
   def new
