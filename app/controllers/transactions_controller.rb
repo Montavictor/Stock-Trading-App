@@ -4,7 +4,7 @@ class TransactionsController < ApplicationController
     @transactions = current_user.transactions
   end
 
-  def quantity
+  def input_quantity
     data = StockPriceApi.get_stock_price(params[:symbol])
 
     if data['Error Message']
@@ -51,12 +51,10 @@ class TransactionsController < ApplicationController
       
       if @stock
         if @transaction.transaction_type == "Buy"
-          @current_quantity = @stock.quantity + @transaction.quantity
+          @stock.update(quantity: @stock.quantity + @transaction.quantity)
         else
-          @current_quantity = @stock.quantity - @transaction.quantity
+          @stock.update(quantity: @stock.quantity - @transaction.quantity)
         end
-
-        @stock.update(quantity: @current_quantity)
       else
         current_user.stocks.create(company_name: @transaction.company_name, quantity: @transaction.quantity)
       end
@@ -76,11 +74,9 @@ class TransactionsController < ApplicationController
 
   def set_current_balance
     if @transaction.transaction_type == "Buy"
-      @current_balance = current_user.balance - @transaction.total_price
+      current_user.update(balance: current_user.balance - @transaction.total_price)
     else
-      @current_balance = current_user.balance + @transaction.total_price
+      current_user.update(balance: current_user.balance + @transaction.total_price)
     end
-
-    current_user.update(balance: @current_balance)  
   end
 end

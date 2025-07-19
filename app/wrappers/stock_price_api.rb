@@ -9,8 +9,8 @@ class StockPriceApi
     http.use_ssl = true
 
     request = Net::HTTP::Get.new(url)
-    request["x-rapidapi-key"] = '7b751feb97msh677e0468da881d4p158468jsnd7d8217352de'
-    request["x-rapidapi-host"] = 'alpha-vantage.p.rapidapi.com'
+    request["x-rapidapi-key"] = ENV['RAPIDAPI_KEY']
+    request["x-rapidapi-host"] = ENV['RAPIDAPI_HOST']
 
     response = http.request(request)
     JSON.parse(response.body)

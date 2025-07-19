@@ -29,7 +29,7 @@ Rails.application.routes.draw do
   end
   resources :stocks
   resources :transactions
-  get '/input_quantity' => 'transactions#quantity'
+  get '/input_quantity' => 'transactions#input_quantity'
   get '/search' => 'transactions#search'
  
   root "pages#index"
