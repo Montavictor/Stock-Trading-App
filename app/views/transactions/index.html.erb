@@ -2,28 +2,33 @@
 <%=current_user.email%>
 <h2> Current balance: <%= current_user.balance %> </h2>
 
-<table>
+<%= link_to "Buy", "/search" %>
+<%= link_to "My Portfolio", stocks_path %>
+<table class="table-users">
   <thead>
-    <tr>
-      <th>Transaction</th>
-      <th>Company Name</th>
-      <th>Stock Price</th>
-      <th>Quantity</th>
-      <th>Total Price</th>
+    <tr class="bg-gray-100">
+      <th class="border px-4 py-2">Company Name</th>
+      <th class="border px-4 py-2">Stock Price</th>
+      <th class="border px-4 py-2">Quantity</th>
+      <th class="border px-4 py-2">Total Price</th>
+      <th class="border px-4 py-2">Transaction</th>
     </tr>
   </thead>
   <tbody>
-    <% @transactions.each do |transaction| %>
+    <% if @transactions.any? %>   
+      <% @transactions.each do |transaction| %>
+        <tr>
+          <td class="border px-4 py-2"><%= transaction.company_name %></td>
+          <td class="border px-4 py-2"><%= transaction.stock_price %></td> 
+          <td class="border px-4 py-2"><%= transaction.quantity %></td> 
+          <td class="border px-4 py-2"><%= transaction.total_price %></td>
+          <td class="border px-4 py-2"><%= transaction.transaction_type %></td>
+        </tr>
+      <% end %>     
+    <% else %>
       <tr>
-        <td><%= transaction.transaction_type %></td>
-        <td><%= transaction.company_name %></td>
-        <td><%= transaction.stock_price %></td> 
-        <td><%= transaction.quantity %></td> 
-        <td><%= transaction.total_price %></td> 
+        <td colspan="8" class="text-center py-4 text-gray-600">No transactions yet</td>
       </tr>
-    <% end %>
+    <% end %>            
   </tbody>
 </table>
-
-<%= link_to "Buy", "/search" %>
-<%= link_to "My Portfolio", stocks_path %>

@@ -1,6 +1,6 @@
 <h1>My Portfolio</h1>
 
-<table>
+<table class="table-users">
   <thead>
     <tr>
       <th>Company Name</th>
@@ -9,16 +9,21 @@
     </tr>
   </thead>
   <tbody>
-    <% @stocks.each do |stock| %>
+    <% if @stocks.any? %>
+      <% @stocks.each do |stock| %>
+        <tr>
+          <td><%= stock.company_name %></td>
+          <td><%= stock.quantity %></td>
+          <td>
+            <%= link_to "Sell", stock_path(stock, symbol: stock.company_name)%>
+          </td> 
+        </tr>
+      <% end %>
+    <% else %>
       <tr>
-        <td><%= stock.company_name %></td>
-        <td><%= stock.quantity %></td>
-         <td>
-          <%= link_to "Current Price", stock_path(stock, symbol: stock.company_name)%>
-          <%= link_to "Sell", input_quantity_path(symbol: stock.company_name, stock_quantity: stock.quantity, transaction_type: "Sell") %>
-         </td> 
+        <td colspan="8" class="text-center py-4 text-gray-600">No stocks yet</td>
       </tr>
-    <% end %>
+    <% end %>      
   </tbody>
 </table>
 

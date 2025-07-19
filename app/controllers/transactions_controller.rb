@@ -1,28 +1,27 @@
 class TransactionsController < ApplicationController
-  
+  before_action :get_stock_data, only: [:new]
   def index
     @transactions = current_user.transactions
   end
 
   def input_quantity
     data = StockPriceApi.get_stock_price(params[:symbol])
-
     if data['Error Message']
       redirect_to "/search", notice: "Please enter valid symbol"
     else
       @symbol = data['Meta Data'].dig('2. Symbol').upcase
       @stock_price = data.dig('Time Series (Daily)').values.first.dig('1. open')
       @transaction_type = params[:transaction_type]
+      session[:company_name] = @symbol
+      session[:stock_price] = @stock_price
     end
-    @stock_quantity = params[:stock_quantity]
+    @stock_quantity = session[:stock_quantity]
   end
 
 
   def new
     @transaction = Transaction.new
-    @symbol = params[:company_name]
     @transaction_type = params[:transaction_type]
-    @stock_price = params[:stock_price]
     @quantity = params[:quantity]
     @total_price = (@stock_price.to_f. * @quantity.to_i).round(2)
 
@@ -70,6 +69,11 @@ class TransactionsController < ApplicationController
 
   def transaction_params
     params.require(:transaction).permit(:quantity, :transaction_type, :company_name, :stock_price, :total_price)
+  end
+
+  def get_stock_data
+    @symbol = session[:company_name]
+    @stock_price = session[:stock_price]
   end
 
   def set_current_balance

@@ -6,8 +6,6 @@
 <p>Symbol: <%= @symbol %> </p>
 <p>Price: <%= @stock_price %> </p>
 <%= form_with url: new_transaction_path, method: :get do |form| %>
-<%= form.hidden_field :company_name, value: @symbol %>
-<%= form.hidden_field :stock_price, value: @stock_price %>
 <%= form.hidden_field :transaction_type, value: @transaction_type %>
 <%= form.label :quantity %>
 <%= form.number_field :quantity, in: 1.0..100, step: 1 %>
