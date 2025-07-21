@@ -18,12 +18,35 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
+  <body class="bg-gray-100">
+    <div class="bg-slate-200 p-4 flex justify-between sticky top-0 h-20 items-center" >
+      <div class="text-2xl font-bold text-slate-800 px-4 py-2">
+        <a href="/" class="hover:text-slate-600 transition duration-200">
+          StockApp
+        </a>
+      </div>
+      <div class="">
+        email
+      </div>
+    </div>
+    <div class="bg-slate-300 flex">
+      <div class="bg-slate-400 w-1/6 flex flex-col justify-between sticky  t-20 h-[calc(100vh-80px)]">
+        <div class="">
+          sidebar top
+        </div>
+        <div class="">
+          sidebar bot
+        </div>
+      </div>
+      <main class="bg-slate-500 w-5/6 p-4">
+      main
+        <%= yield %>
+      </main>
+    </div>
     <% flash.each do |type, msg| %>
       <div class="flash <%= type %>">
         <%= msg %>
       </div>
     <% end %>
-    <%= yield %>
   </body>
 </html>

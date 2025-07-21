@@ -4,15 +4,24 @@ class ApplicationController < ActionController::Base
   before_action :authenticate_user!  
   #addition of ne fields in registration form
   before_action :configure_permitted_parameters, if: :devise_controller?
+  # layout :layout_by_resource
 
-  def after_sign_in_path_for(user)
-    user.is_admin? ? admin_categories_path : root_path
-  end
+  private
+
+  # def layout_by_resource
+  #   if devise_controller?
+  #     # use `app/views/layouts/devise.html.erb`
+  #     "devise" 
+  #   else
+  #     # use default layout
+  #     "application" 
+  #   end
+  # end
 
   protected
   
   def after_sign_in_path_for(user)
-    user.is_admin? ? admin_users_path : root_path
+    user.is_admin? ? admin_root_path : root_path
   end
 
   def configure_permitted_parameters
