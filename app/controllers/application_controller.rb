@@ -22,7 +22,7 @@ class ApplicationController < ActionController::Base
 
   def check_if_admin
     if current_user.is_admin?
-      redirect_to admin_root_path, , notice: "Page not accessible as Admin"
+      redirect_to admin_root_path, notice: "Page not accessible as Admin"
     end
   end
 
