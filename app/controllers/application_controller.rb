@@ -18,6 +18,20 @@ class ApplicationController < ActionController::Base
   #   end
   # end
 
+  private
+
+  def check_if_admin
+    if current_user.is_admin?
+      redirect_to admin_root_path, , notice: "Page not accessible as Admin"
+    end
+  end
+
+  def check_if_user
+    if !current_user.is_admin?
+      redirect_to root_path, notice: "Page not accessible to User"
+    end
+  end
+
   protected
   
   def after_sign_in_path_for(user)

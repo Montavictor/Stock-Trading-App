@@ -1,5 +1,7 @@
 class TransactionsController < ApplicationController
+  before_action :check_if_admin
   before_action :get_stock_data, only: [:new]
+  
   def index
     @transactions = current_user.transactions
   end
