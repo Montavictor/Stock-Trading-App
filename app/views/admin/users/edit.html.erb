@@ -1,2 +1,27 @@
-<h1>Admin::Users#edit</h1>
-<%= render "form", user: @user %>
+<h1 class="text-2xl font-bold mb-6">Edit User</h1>
+<%= form_with model: [:admin, @user], class: "space-y-6 bg-white p-6 rounded-md shadow-md max-w-xl mx-auto" do |form| %>
+
+  <div class="block font-bold">User:</div>
+  <div>
+    <div class="block font-semibold mb-1"><%= @user.email %></div>
+  </div>
+  <div>
+    <label class="block font-semibold mb-1">Role:</label>
+    <%= form.select :is_admin, [["User", false], ["Admin", true]], prompt: "Select Role", class: "w-full px-3 py-2 border rounded-md" %>
+    <% @user.errors.full_messages_for(:is_admin).each do |message| %>
+      <p class="text-sm text-red-600 mt-1"><%= message %></p>
+    <% end %>
+  </div>
+
+  <div>
+    <label class="block font-semibold mb-1">Status:</label>
+    <%= form.select :status, [["Pending", false], ["Approved", true]], prompt: "Select Status", class: "w-full px-3 py-2 border rounded-md" %>
+    <% @user.errors.full_messages_for(:status).each do |message| %>
+      <p class="text-sm text-red-600 mt-1"><%= message %></p>
+    <% end %>
+  </div>
+
+  <div>
+    <%= form.submit "Update", class: "bg-blue-600 text-white font-semibold px-6 py-2 rounded-md hover:bg-blue-700" %>
+  </div>
+<% end %>

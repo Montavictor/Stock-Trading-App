@@ -4,19 +4,19 @@ class ApplicationController < ActionController::Base
   before_action :authenticate_user!  
   #addition of ne fields in registration form
   before_action :configure_permitted_parameters, if: :devise_controller?
-  # layout :layout_by_resource
+  layout :layout_by_resource
 
   private
 
-  # def layout_by_resource
-  #   if devise_controller?
-  #     # use `app/views/layouts/devise.html.erb`
-  #     "devise" 
-  #   else
-  #     # use default layout
-  #     "application" 
-  #   end
-  # end
+  def layout_by_resource
+    if devise_controller?
+      # use `app/views/layouts/devise.html.erb`
+      "devise" 
+    else
+      # use default layout
+      "application" 
+    end
+  end
 
   protected
   

@@ -1,4 +1,4 @@
-<h1 class="text-2xl font-bold mb-6">Admin Page</h1>
+<h1 class="text-2xl font-bold mb-6">Users</h1>
 
 <table class="min-w-full border border-gray-200 shadow-sm rounded-md mb-6">
   <thead class="bg-gray-100">
@@ -40,14 +40,3 @@
     <% end %>
   </tbody>
 </table>
-
-<div class="flex space-x-4">
-  <%= link_to 'Create User', new_admin_user_path,
-    class: "bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md font-medium" %>
-
-  <%= link_to 'Transactions', admin_transactions_path,
-    class: "bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md font-medium" %>
-
-  <%= link_to 'Pending', admin_pending_path,
-    class: "bg-yellow-600 hover:bg-yellow-700 text-white px-4 py-2 rounded-md font-medium" %>
-</div>

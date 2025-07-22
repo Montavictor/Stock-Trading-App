@@ -43,22 +43,23 @@ class Admin::UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
-      flash[:success] = "User Created!"
+      flash[:notice] = "User Created!"
       redirect_to admin_users_path
     else
       flash[:error] = "Error: Validation Error"
       render :new, status: :unprocessable_entity
     end
   end
-
+  
   def show
     @user = User.find(params[:id])
   end
-
+  
   def destroy
     @user = User.find(params[:id])
     @user.destroy
-    redirect_to admin_users_path, warning: "User Deleted."
+    flash[:error] = "User Deleted."
+    redirect_to admin_users_path
   end
 
   private
