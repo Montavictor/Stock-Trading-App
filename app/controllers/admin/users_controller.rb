@@ -1,4 +1,5 @@
 class Admin::UsersController < ApplicationController
+  before_action :check_if_user
   rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
   # rescue_from ActiveRecord::InvalidForeignKey, with: :render_internal_error
   # rescue_from ActionController::ParameterMissing, with: :render_internal_error
@@ -25,6 +26,7 @@ class Admin::UsersController < ApplicationController
   def approve 
     @user = User.find(params[:id])
     if @user.update(status: true)
+      AdminMailer.account_approved(@user).deliver_later
       flash[:success] = "User Approved"
     else
       flash[:error] = "Failed to approve user"

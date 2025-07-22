@@ -1,4 +1,5 @@
 class Admin::TransactionsController < ApplicationController
+  before_action :check_if_user
 
 # TRANSACTION CONTROLLER FOR ADMIN
 
