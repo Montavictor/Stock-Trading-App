@@ -32,6 +32,8 @@ Rails.application.routes.draw do
   resources :transactions
   get '/input_quantity' => 'transactions#input_quantity'
   get '/search' => 'transactions#search'
- 
+  devise_scope :user do
+    get 'users/sign_out' => "devise/sessions#destroy"
+  end
   root "pages#index"
 end
