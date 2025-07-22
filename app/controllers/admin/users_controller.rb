@@ -26,6 +26,7 @@ class Admin::UsersController < ApplicationController
   def approve 
     @user = User.find(params[:id])
     if @user.update(status: true)
+      AdminMailer.account_approved(@user).deliver_later
       flash[:success] = "User Approved"
     else
       flash[:error] = "Failed to approve user"
