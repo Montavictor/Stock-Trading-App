@@ -15,7 +15,7 @@
           <td><%= stock.company_name %></td>
           <td><%= stock.quantity %></td>
           <td>
-            <%= link_to "Sell", stock_path(stock, symbol: stock.company_name)%>
+            <%= link_to "Sell", input_quantity_path(transaction_type: "Sell", symbol: stock.company_name)%>
           </td> 
         </tr>
       <% end %>
@@ -26,5 +26,3 @@
     <% end %>      
   </tbody>
 </table>
-
-<%= link_to "Back to dashboard", transactions_path %>

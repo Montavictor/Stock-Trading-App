@@ -22,13 +22,15 @@ class ApplicationController < ActionController::Base
 
   def check_if_admin
     if current_user.is_admin?
-      redirect_to admin_root_path, notice: "Page not accessible as Admin"
+      flash[:warning] = "Page not accessible as Admin"
+      redirect_to admin_root_path
     end
   end
 
   def check_if_user
     if !current_user.is_admin?
-      redirect_to root_path, notice: "Page not accessible to User"
+      flash[:error] = "Page not accessible to User"
+      redirect_to root_path
     end
   end
 
