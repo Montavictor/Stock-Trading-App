@@ -39,31 +39,48 @@
       <!-- Sidebar Navigation -->
       <aside class="bg-white w-64 hidden md:block border-r border-gray-200 shadow-sm">
       <nav class="p-4 space-y-1">
-        <%= link_to admin_root_path, class: "flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 group" do %>
+        <%= link_to (current_user.is_admin? ? admin_root_path : root_path), class: "flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 group" do %>
           <i class="fa-solid fa-house mr-2 text-md group-hover:text-indigo-700"></i>
           <span class="truncate">
             Home
           </span>
         <% end %>
-        <%= link_to admin_users_path, class: "flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 group" do %>
-          <i class="fa-solid fa-users mr-2 text-md group-hover:text-indigo-700"></i>
-          <span class="truncate">
-            Users
-          </span>
-        <% end %>
-        <%= link_to admin_pending_path, class: "flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 group" do %>
-          <i class="fas fa-clock mr-2 group-hover:text-indigo-700"></i>
-          <span class="truncate">Pending Approvals</span>
-        <% end %>
 
-        <%= link_to admin_transactions_path, class: "flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 group" do %>
+        <%= link_to (current_user.is_admin? ? admin_transactions_path : transactions_path), class: "flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 group" do %>
           <i class="fas fa-list-alt mr-2 group-hover:text-indigo-700"></i>
           <span class="truncate">Transactions</span>
         <% end %>
 
-        <%= link_to new_admin_user_path, class: "flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 group" do %>
-          <i class="fas fa-star mr-2 group-hover:text-indigo-700"></i>
-          <span class="truncate">Create User</span>
+        <% if !current_user.is_admin? %>
+          <%= link_to stocks_path, class: "flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 group" do %>
+            <i class="fa-solid fa-file mr-2 text-md group-hover:text-indigo-700"></i>
+            <span class="truncate">
+              My Portfolio
+            </span>
+          <% end %>
+
+          <%= link_to "/search", class: "flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 group" do %>
+            <i class="fa-solid fa-coins mr-2 text-md group-hover:text-indigo-700"></i>
+            <span class="truncate">
+              Buy Stocks
+            </span>
+          <% end %>
+        <% else %>
+          <%= link_to admin_users_path, class: "flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 group" do %>
+            <i class="fa-solid fa-users mr-2 text-md group-hover:text-indigo-700"></i>
+            <span class="truncate">
+              Users
+            </span>
+          <% end %>
+          <%= link_to admin_pending_path, class: "flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 group" do %>
+            <i class="fas fa-clock mr-2 group-hover:text-indigo-700"></i>
+            <span class="truncate">Pending Approvals</span>
+          <% end %>
+
+          <%= link_to new_admin_user_path, class: "flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 group" do %>
+            <i class="fas fa-star mr-2 group-hover:text-indigo-700"></i>
+            <span class="truncate">Create User</span>
+          <% end %>
         <% end %>
 
         <div class="border-t border-gray-200 pt-2 mt-2">
