@@ -10,6 +10,5 @@ class StocksController < ApplicationController
     @stock = current_user.stocks.find(params[:id])
     data = StockPriceApi.get_stock_price(@stock.company_name)
     @stock_price = data.dig('Time Series (Daily)').values.first.dig('1. open')
-    session[:stock_quantity] = @stock.quantity
   end
 end

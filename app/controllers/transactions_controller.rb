@@ -8,18 +8,30 @@ class TransactionsController < ApplicationController
 
   def input_quantity
     data = StockPriceApi.get_stock_price(params[:symbol])
+
     if data['Error Message']
-      redirect_to "/search", notice: "Please enter valid symbol"
+      flash[:warning] = "Please enter valid symbol"
+      redirect_to "/search"
     else
       @symbol = data['Meta Data'].dig('2. Symbol').upcase
       @stock_price = data.dig('Time Series (Daily)').values.first.dig('1. open')
       @transaction_type = params[:transaction_type]
+      
+      check_if_valid_transaction_type
+      
       session[:company_name] = @symbol
       session[:stock_price] = @stock_price
     end
-    @stock_quantity = session[:stock_quantity]
+    if @transaction_type == "Sell"
+      stock = current_user.stocks.where(company_name: @symbol).first
+      if !stock.nil?
+        @stock_quantity = stock.quantity
+      else
+        flash[:warning] = "Not enough stocks."
+        redirect_to stocks_path
+      end
+    end
   end
-
 
   def new
     @transaction = Transaction.new
@@ -33,13 +45,17 @@ class TransactionsController < ApplicationController
         flash[:notice] = "Not enough balance"
         render :quantity
       end
-    else
+    elsif @transaction_type == "Sell"
       stock = current_user.stocks.where(company_name: @symbol).first
       updated_stock = stock.quantity - @quantity.to_i
 
       if updated_stock < 0
-        redirect_to stock_path(stock), notice: "Not enough stocks."
+        flash[:warning] = "Not enough stocks."
+        redirect_to stock_path(stock)
       end
+    else
+      flash[:error] = "Invalid transaction. Please try again"
+      redirect_to root_path
     end
   end
 
@@ -48,22 +64,12 @@ class TransactionsController < ApplicationController
 
     if @transaction.save
       set_current_balance
-      @stock = current_user.stocks.where(company_name: @transaction.company_name).first
-      
-      if @stock
-        if @transaction.transaction_type == "Buy"
-          @stock.update(quantity: @stock.quantity + @transaction.quantity)
-        else
-          @stock.update(quantity: @stock.quantity - @transaction.quantity)
-        end
-      else
-        current_user.stocks.create(company_name: @transaction.company_name, quantity: @transaction.quantity)
-      end
-
-      redirect_to transactions_path
+      update_stock
+      flash[:notice] = "#{@transaction.transaction_type} #{@transaction.company_name} stocks transaction successful."
+      redirect_to stocks_path
     else
-      flash[:notice] = "Failed"
-      render :new, status: :unprocessable_entity
+      flash[:error] = "Transaction failed. Please try again."
+      redirect_to root_path, status: :unprocessable_entity
     end
   end
 
@@ -83,6 +89,27 @@ class TransactionsController < ApplicationController
       current_user.update(balance: current_user.balance - @transaction.total_price)
     else
       current_user.update(balance: current_user.balance + @transaction.total_price)
+    end
+  end
+
+  def check_if_valid_transaction_type
+    if @transaction_type != "Buy" &&  @transaction_type != "Sell"
+      flash[:error] = "Invalid transaction. Please try again"
+      redirect_to root_path
+    end
+  end
+
+  def update_stock
+    @stock = current_user.stocks.where(company_name: @transaction.company_name).first
+    if @stock
+      if @transaction.transaction_type == "Buy"
+        @stock.update(quantity: @stock.quantity + @transaction.quantity)
+      end
+      if @transaction.transaction_type == "Sell"
+        @stock.update(quantity: @stock.quantity - @transaction.quantity)
+      end
+    else
+      current_user.stocks.create(company_name: @transaction.company_name, quantity: @transaction.quantity)
     end
   end
 end
