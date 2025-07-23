@@ -1,4 +1,33 @@
-<div>
-  <h1 class="font-bold text-4xl">Admin::Dashboard#index</h1>
-  <p>Find me in app/views/admin/dashboard/index.html.erb</p>
+<div class="p-6">
+  <h1 class="text-3xl font-bold mb-6">Admin Dashboard</h1>
+
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+    <div class="bg-white shadow rounded-lg p-6">
+      <div class="text-sm text-gray-500">Transactions Today</div>
+      <div class="text-3xl font-bold text-indigo-600"><%= @transactions.count %></div>
+    </div>
+
+
+    <div class="bg-white shadow rounded-lg p-6">
+      <div class="text-sm text-gray-500">Total Balance</div>
+      <div class="text-3xl font-bold text-green-600">
+        <%= number_to_currency(@total, precision: 2) %>
+      </div>
+    </div>
+
+    <div class="bg-white shadow rounded-lg p-6">
+      <div class="text-sm text-gray-500">Total Active Users</div>
+      <div class="text-3xl font-bold text-blue-600"><%= @users.count %></div>
+    </div>
+  </div>
+
+  <!-- Chart Section -->
+  <div class="bg-white shadow rounded-lg p-6">
+    <h2 class="text-lg font-semibold mb-4">Transactions Over Time</h2>
+    <!-- Replace this with the actual chart later -->
+    <div class="w-full h-64 flex items-center justify-center text-gray-400 border-2 border-dashed border-gray-300 rounded-lg">
+      <span>Place Holder</span>
+    </div>
+  </div>
 </div>

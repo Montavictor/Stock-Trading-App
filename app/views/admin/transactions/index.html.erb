@@ -1,42 +1,46 @@
-<h1 class="text-2xl font-bold mb-4">All Transactions</h1>
-
-<table class="table-auto border-collapse border border-gray-300 w-full">
-  <thead>
-    <tr class="bg-gray-100">
-      <th class="border px-4 py-2">ID</th>
-      <th class="border px-4 py-2">Username</th>
-      <th class="border px-4 py-2">Type</th>
-      <th class="border px-4 py-2">Company Name</th>
-      <th class="border px-4 py-2">Quantity</th>
-      <th class="border px-4 py-2">Stock Price</th>
-      <th class="border px-4 py-2">Total Price</th>
-      <th class="border px-4 py-2">Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% if @transactions.any? %>
-      <% @transactions.each do |trans| %>
+<div class="p-6">
+  <h1 class="text-3xl font-bold mb-6 text-gray-800">All Transactions</h1>
+  
+  <div class="overflow-x-auto bg-white shadow-md rounded-lg">
+    <table class="min-w-full table-auto border-separate border-spacing-y-2 text-sm text-gray-700">
+      <thead class="bg-indigo-50 text-indigo-700">
         <tr>
-          <td class="border px-4 py-2"><%= trans.id %></td>
-          <td class="border px-4 py-2"><%= trans.user.username %></td>
-          <td class="border px-4 py-2"><%= trans.transaction_type.capitalize %></td>
-          <td class="border px-4 py-2"><%= trans.company_name %></td>
-          <td class="border px-4 py-2"><%= trans.quantity %></td>
-          <td class="border px-4 py-2"><%= number_to_currency(trans.stock_price) %></td>
-          <td class="border px-4 py-2"><%= number_to_currency(trans.total_price) %></td>
-          <td class="border px-4 py-2 space-x-2">
-            <%= link_to 'User', admin_user_path(trans.user), class: "bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded" %>
-            <%= link_to 'Delete', admin_transaction_path(trans), data: {
-                  turbo_method: :delete,
-                  turbo_confirm: "Are you sure you want to delete this transaction?"
-                }, class: "bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded" %>
-          </td>
+          <th class="px-4 py-3 text-left font-semibold">ID</th>
+          <th class="px-4 py-3 text-left font-semibold">Username</th>
+          <th class="px-4 py-3 text-left font-semibold">Type</th>
+          <th class="px-4 py-3 text-left font-semibold">Company</th>
+          <th class="px-4 py-3 text-left font-semibold">Quantity</th>
+          <th class="px-4 py-3 text-left font-semibold">Stock Price</th>
+          <th class="px-4 py-3 text-left font-semibold">Total Price</th>
+          <th class="px-4 py-3 text-left font-semibold">Actions</th>
         </tr>
-      <% end %>
-    <% else %>
-      <tr>
-        <td colspan="8" class="text-center py-4 text-gray-600">No transactions yet</td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+      </thead>
+      <tbody>
+        <% if @transactions.any? %>
+          <% @transactions.each_with_index do |trans, i| %>
+            <tr class="<%= i.even? ? 'bg-white' : 'bg-gray-50' %> hover:bg-indigo-50 transition">
+              <td class="px-4 py-2 rounded-l-lg"><%= trans.id %></td>
+              <td class="px-4 py-2"><%= trans.user.username %></td>
+              <td class="px-4 py-2 capitalize"><%= trans.transaction_type %></td>
+              <td class="px-4 py-2"><%= trans.company_name %></td>
+              <td class="px-4 py-2"><%= trans.quantity %></td>
+              <td class="px-4 py-2"><%= number_to_currency(trans.stock_price) %></td>
+              <td class="px-4 py-2"><%= number_to_currency(trans.total_price) %></td>
+              <td class="px-4 py-2 space-x-2 rounded-r-lg">
+                <%= link_to 'User', admin_user_path(trans.user),
+                  class: "inline-block bg-blue-500 hover:bg-blue-600 text-white text-xs px-3 py-1 rounded-md transition" %>
+                <%= link_to 'Delete', admin_transaction_path(trans),
+                  data: { turbo_method: :delete, turbo_confirm: "Are you sure you want to delete this transaction?" },
+                  class: "inline-block bg-red-500 hover:bg-red-600 text-white text-xs px-3 py-1 rounded-md transition" %>
+              </td>
+            </tr>
+          <% end %>
+        <% else %>
+          <tr>
+            <td colspan="8" class="text-center py-6 text-gray-500">No transactions yet.</td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
