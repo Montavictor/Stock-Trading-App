@@ -1,4 +1,4 @@
-<h1>Balance:<%= current_user.balance%></h1>
+<%= render "pages/account_balance" %>
 
 <%= form_with model: @transaction do |form| %>
   <div>

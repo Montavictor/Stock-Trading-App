@@ -1,2 +1,6 @@
-<h1>Account Pending</h1>
-<p>Please wait for approval of admin</p>
+<% if !current_user.status? && !current_user.is_admin? %>
+  <h1>Account Pending</h1>
+  <p>Please wait for approval of admin</p>
+<% else %>
+  <h1> dashboard </h1>
+<% end %>

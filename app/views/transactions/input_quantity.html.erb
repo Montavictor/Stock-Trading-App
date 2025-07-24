@@ -1,4 +1,4 @@
-<h2> Current balance: <%= current_user.balance %> </h2>
+<%= render "pages/account_balance" %>
 <% if @transaction_type == "Sell" %>
   <p> Current stock: <%= @stock_quantity %>
 <% end %>
