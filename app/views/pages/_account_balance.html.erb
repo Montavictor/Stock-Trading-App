@@ -1,0 +1,6 @@
+<div class="bg-white shadow rounded-lg p-6 w-1/2 mx-auto w-fit mb-4">
+  <div class="text-sm text-gray-500">Total Balance</div>
+  <div class="text-3xl font-bold text-green-600">
+    <%= number_to_currency(current_user.balance, precision: 2) %>
+  </div>
+</div>
