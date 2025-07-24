@@ -5,5 +5,6 @@ class Admin::DashboardController < ApplicationController
     @transactions = Transaction.where(created_at: Date.today.all_day)
     @total = User.sum(:balance)
     @users = User.where(is_admin: false)
+    @pending = User.where(status: false)
   end
 end

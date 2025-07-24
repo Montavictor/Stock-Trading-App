@@ -1,6 +1,7 @@
-<%= form_with model: [:admin, @user], class: "space-y-6 bg-white p-6 rounded-md shadow-md max-w-xl mx-auto " do |form| %>
+<%= form_with model: [:admin, @user], class: "space-y-6 bg-indigo-50 p-6 rounded-md shadow-xl max-w-xl mx-auto border border-gray-200" do |form| %>
+    <h1 class="text-3xl font-bold mb-6 text-indigo-900">Create User</h1>  
   <div>
-    <label class="block font-semibold mb-1">Email:</label>
+    <label class="block font-bold mb-1 text-indigo-900">Email:</label>
     <%= form.email_field :email, placeholder: "Enter your email", required: true, class: "w-full px-3 py-2 border rounded-md" %>
     <% @user.errors.full_messages_for(:email).each do |message| %>
       <p class="text-sm text-red-600 mt-1"><%= message %></p>
@@ -8,7 +9,7 @@
   </div>
 
   <div>
-    <label class="block font-semibold mb-1">Username:</label>
+    <label class="block font-bold mb-1 text-indigo-900">Username:</label>
     <%= form.text_field :username, required: true, class: "w-full px-3 py-2 border rounded-md" %>
     <% @user.errors.full_messages_for(:username).each do |message| %>
       <p class="text-sm text-red-600 mt-1"><%= message %></p>
@@ -16,7 +17,7 @@
   </div>
 
   <div>
-    <label class="block font-semibold mb-1">Password:</label>
+    <label class="block font-bold mb-1 text-indigo-900">Password:</label>
     <%= form.password_field :password, required: true, class: "w-full px-3 py-2 border rounded-md" %>
     <% @user.errors.full_messages_for(:password).each do |message| %>
       <p class="text-sm text-red-600 mt-1"><%= message %></p>
@@ -24,7 +25,7 @@
   </div>
 
   <div>
-    <label class="block font-semibold mb-1">Confirm Password:</label>
+    <label class="block font-bold mb-1 text-indigo-900">Confirm Password:</label>
     <%= form.password_field :password_confirmation, required: true, class: "w-full px-3 py-2 border rounded-md" %>
     <% @user.errors.full_messages_for(:password_confirmation).each do |message| %>
       <p class="text-sm text-red-600 mt-1"><%= message %></p>
@@ -32,7 +33,7 @@
   </div>
 
   <div>
-    <label class="block font-semibold mb-1">Last Name:</label>
+    <label class="block font-bold mb-1 text-indigo-900">Last Name:</label>
     <%= form.text_field :last_name, required: true, class: "w-full px-3 py-2 border rounded-md" %>
     <% @user.errors.full_messages_for(:last_name).each do |message| %>
       <p class="text-sm text-red-600 mt-1"><%= message %></p>
@@ -40,7 +41,7 @@
   </div>
 
   <div>
-    <label class="block font-semibold mb-1">First Name:</label>
+    <label class="block font-bold mb-1 text-indigo-900">First Name:</label>
     <%= form.text_field :first_name, required: true, class: "w-full px-3 py-2 border rounded-md" %>
     <% @user.errors.full_messages_for(:first_name).each do |message| %>
       <p class="text-sm text-red-600 mt-1"><%= message %></p>
@@ -48,7 +49,7 @@
   </div>
 
   <div>
-    <label class="block font-semibold mb-1">Role:</label>
+    <label class="block font-bold mb-1 text-indigo-900">Role:</label>
     <%= form.select :is_admin, [["User", false], ["Admin", true]], prompt: "Select Role", class: "w-full px-3 py-2 border rounded-md" %>
     <% @user.errors.full_messages_for(:is_admin).each do |message| %>
       <p class="text-sm text-red-600 mt-1"><%= message %></p>
@@ -56,7 +57,7 @@
   </div>
 
   <div>
-    <label class="block font-semibold mb-1">Status:</label>
+    <label class="block font-bold mb-1 text-indigo-900">Status:</label>
     <%= form.select :status, [["Pending", false], ["Approved", true]], prompt: "Select Status", class: "w-full px-3 py-2 border rounded-md" %>
     <% @user.errors.full_messages_for(:status).each do |message| %>
       <p class="text-sm text-red-600 mt-1"><%= message %></p>
@@ -64,7 +65,7 @@
   </div>
 
   <div>
-    <label class="block font-semibold mb-1">Balance:</label>
+    <label class="block font-bold mb-1 text-indigo-900">Balance:</label>
     <%= form.number_field :balance, step: 0.01, placeholder: "Enter Balance", required: true, class: "w-full px-3 py-2 border rounded-md" %>
     <% @user.errors.full_messages_for(:balance).each do |message| %>
       <p class="text-sm text-red-600 mt-1"><%= message %></p>
@@ -72,6 +73,6 @@
   </div>
 
   <div>
-    <%= form.submit "Submit", class: "bg-blue-600 text-white font-semibold px-6 py-2 rounded-md hover:bg-blue-700" %>
+    <%= form.submit "Submit", class: "bg-indigo-600 text-white font-semibold px-6 py-2 rounded-md hover:bg-blue-700" %>
   </div>
 <% end %>
