@@ -32,7 +32,7 @@
                 data: { turbo_confirm: "Approve this user?" } %>
   
               <%= link_to "Decline", admin_user_path(user),
-                data: { turbo_method: :delete, turbo_confirm: "Are you sure?" },
+                data: { turbo_method: :delete, turbo_confirm: "Decline this user?" },
                 class: "inline-block bg-red-500 hover:bg-red-600 text-white text-sm font-medium px-3 py-1 rounded-md" %>
             </td>
           </tr>

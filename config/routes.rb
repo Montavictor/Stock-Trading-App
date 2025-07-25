@@ -23,9 +23,6 @@ Rails.application.routes.draw do
       member do
         patch :approve
       end
-      resources :stocks
-      # transactions of Specific User
-      resources :transactions, only: [:index, :show]
     end
   end
   resources :stocks

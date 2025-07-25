@@ -67,3 +67,7 @@ gem 'dotenv', '~> 3.1', '>= 3.1.7', groups: [:development, :test]
 gem "groupdate"
 
 gem "chartkick"
+
+group :development, :test do
+  gem 'rspec-rails', '~> 8.0.0'
+end

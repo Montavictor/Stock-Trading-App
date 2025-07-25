@@ -1,19 +1,17 @@
 class Admin::UsersController < ApplicationController
   before_action :check_if_user
+  before_action :set_user, only: [:show, :edit, :update, :approve,  :destroy ]
   rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
-  # rescue_from ActiveRecord::InvalidForeignKey, with: :render_internal_error
-  # rescue_from ActionController::ParameterMissing, with: :render_internal_error
 
   def index
     @users = User.all
   end
-
-  def edit
-    @user = User.find(params[:id])
-  end
+  
+  def show; end
+  
+  def edit; end
   
   def update
-    @user = User.find(params[:id])
     if @user.update(user_params)
       flash[:success] = "User Edited"
       redirect_to admin_users_path
@@ -24,7 +22,6 @@ class Admin::UsersController < ApplicationController
   end
   
   def approve 
-    @user = User.find(params[:id])
     if @user.update(status: true)
       AdminMailer.account_approved(@user).deliver_later
       flash[:success] = "User Approved"
@@ -53,12 +50,8 @@ class Admin::UsersController < ApplicationController
     end
   end
   
-  def show
-    @user = User.find(params[:id])
-  end
   
   def destroy
-    @user = User.find(params[:id])
     @user.destroy
     flash[:error] = "User Deleted."
     redirect_to admin_users_path
@@ -66,18 +59,16 @@ class Admin::UsersController < ApplicationController
 
   private
 
+  def set_user
+    @user = User.find(params[:id])
+  end
   def user_params
     params.require(:user).permit(:email, :password, :password_confirmation, :last_name, :first_name, :username, :is_admin, :balance, :status)
   end
 
-  # def render_not_found
-  #   render file: Rails.public_path.join('404.html'), status: :not_found, layout: false
-  # end
   def record_not_found
     flash[:error] = "User not Found."
     redirect_to admin_users_path
   end
-  # def render_internal_error
-  #   redirect_to internal_server_error_path
-  # end
+
 end
