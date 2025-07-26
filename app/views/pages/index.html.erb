@@ -1,61 +1,63 @@
-<% if !current_user.status? && !current_user.is_admin? %>
-  <%= render "pending" %>
-<% else %>
-  <h1 class="text-3xl font-bold mb-6 text-indigo-900">Dashboard</h1>
-
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-    <div class="bg-white shadow-md rounded-lg border border-gray-100 p-6 flex flex-col justify-between">
-      <div>
-        <div class="text-md text-gray-500 mb-2 ">Account Balance</div>
-        <div class="text-3xl font-bold text-green-600">
-          <%= number_to_currency(current_user.balance, precision: 2) %>
+<div class="p-6">
+  <% if !current_user.status? && !current_user.is_admin? %>
+    <%= render "pending" %>
+  <% else %>
+    <h1 class="text-3xl font-bold mb-6 text-indigo-900">Dashboard</h1>
+  
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+      <div class="bg-white shadow-md rounded-lg border border-gray-100 p-6 flex flex-col justify-between">
+        <div>
+          <div class="text-md text-gray-500 mb-2 ">Account Balance</div>
+          <div class="text-3xl font-bold text-green-600">
+            <%= number_to_currency(current_user.balance, precision: 2) %>
+          </div>
+        </div>
+      </div>
+  
+      <div class="bg-white shadow-md rounded-lg border border-gray-100 p-6 flex flex-col justify-between">
+        <div>
+          <div class="text-md text-gray-500 mb-2 ">Companies with Owned Stocks</div>
+          <div class="text-3xl font-bold text-red-600"><%= @stocks.count %></div>
+        </div>
+        <div class="mt-2 text-sm text-indigo-800 font-medium">
+          <%= link_to "See Portfolio →", stocks_path, class: "hover:underline" %>
+        </div>
+      </div>
+  
+      <div class="bg-white shadow-md rounded-lg border border-gray-100 p-6 flex flex-col justify-between">
+        <div>
+          <div class="text-md text-gray-500 mb-2 ">Total Transactions</div>
+          <div class="text-3xl font-bold text-indigo-600"><%= @transactions.count %></div>
+        </div>
+        <div class="mt-2 text-sm text-indigo-800 font-medium">
+          <%= link_to "See Transactions →", transactions_path, class: "hover:underline" %>
         </div>
       </div>
     </div>
-
-    <div class="bg-white shadow-md rounded-lg border border-gray-100 p-6 flex flex-col justify-between">
-      <div>
-        <div class="text-md text-gray-500 mb-2 ">Companies with Owned Stocks</div>
-        <div class="text-3xl font-bold text-red-600"><%= @stocks.count %></div>
+     <!-- Chart Section -->
+    <div class="bg-white shadow-lg rounded-lg border border-gray-200 p-6 mb-8">
+      <h2 class="text-lg font-bold mb-8 text-indigo-900">Daily Transactions</h2>
+      <div class="w-full h-64 flex items-center justify-center text-gray-400  rounded-lg p-2 mb-2">
+        <%= line_chart [
+          {name: "Buy", data: @transactions.group_by_day(:created_at).where(transaction_type: "Buy").count},
+          {name: "Sell", data: @transactions.group_by_day(:created_at).where(transaction_type: "Sell").count }
+        ], curve: false%>
       </div>
-      <div class="mt-2 text-sm text-indigo-800 font-medium">
-        <%= link_to "See Portfolio →", stocks_path, class: "hover:underline" %>
+    </div>
+    <div class="bg-white shadow-lg rounded-lg border border-gray-200 p-6 mt-8">
+      <h2 class="text-lg font-bold text-indigo-900 mb-8">No. of Stocks Bought and Sold</h2>
+      <div class="w-full h-64 flex items-center justify-center text-gray-400 rounded-lg p-2 mb-2">
+        <%= column_chart [
+          {
+            name: "Buy",
+            data: @transactions.group(:company_name).where(transaction_type: "Buy").sum(:quantity)
+          },
+          {
+            name: "Sell",
+            data: @transactions.group(:company_name).where(transaction_type: "Sell").sum(:quantity)
+          }
+        ], stacked: true %>
       </div>
     </div>
-
-    <div class="bg-white shadow-md rounded-lg border border-gray-100 p-6 flex flex-col justify-between">
-      <div>
-        <div class="text-md text-gray-500 mb-2 ">Total Transactions</div>
-        <div class="text-3xl font-bold text-indigo-600"><%= @transactions.count %></div>
-      </div>
-      <div class="mt-2 text-sm text-indigo-800 font-medium">
-        <%= link_to "See Transactions →", transactions_path, class: "hover:underline" %>
-      </div>  
-    </div>
-  </div>
-   <!-- Chart Section -->
-  <div class="bg-white shadow-lg rounded-lg border border-gray-200 p-6 mb-8">
-    <h2 class="text-lg font-bold mb-8 text-indigo-900">Daily Transactions</h2>
-    <div class="w-full h-64 flex items-center justify-center text-gray-400  rounded-lg p-2 mb-2">
-      <%= line_chart [
-        {name: "Buy", data: @transactions.group_by_day(:created_at).where(transaction_type: "Buy").count}, 
-        {name: "Sell", data: @transactions.group_by_day(:created_at).where(transaction_type: "Sell").count }
-      ], curve: false%>
-    </div>
-  </div>
-  <div class="bg-white shadow-lg rounded-lg border border-gray-200 p-6 mt-8">
-    <h2 class="text-lg font-bold text-indigo-900 mb-8">No. of Stocks Bought and Sold</h2>
-    <div class="w-full h-64 flex items-center justify-center text-gray-400 rounded-lg p-2 mb-2">
-      <%= column_chart [
-        {
-          name: "Buy", 
-          data: @transactions.group(:company_name).where(transaction_type: "Buy").sum(:quantity)
-        }, 
-        {
-          name: "Sell", 
-          data: @transactions.group(:company_name).where(transaction_type: "Sell").sum(:quantity)
-        }
-      ], stacked: true %>
-    </div>
-  </div>
-<% end %>
+  <% end %>
+</div>
