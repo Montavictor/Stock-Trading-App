@@ -22,13 +22,11 @@ class TransactionsController < ApplicationController
       session[:company_name] = @symbol
       session[:stock_price] = @stock_price
     end
+    
     if @transaction_type == "Sell"
       stock = current_user.stocks.where(company_name: @symbol).first
       if !stock.nil?
         @stock_quantity = stock.quantity
-      else
-        flash[:warning] = "Not enough stocks."
-        redirect_to stocks_path
       end
     end
   end
@@ -39,24 +37,7 @@ class TransactionsController < ApplicationController
     @quantity = params[:quantity]
     @total_price = (@stock_price * @quantity.to_i).round(2)
 
-    if @transaction_type == "Buy"
-      future_balance = current_user.balance - @total_price
-      if future_balance < 0
-        flash[:notice] = "Not enough balance"
-        render :quantity
-      end
-    elsif @transaction_type == "Sell"
-      stock = current_user.stocks.where(company_name: @symbol).first
-      updated_stock = stock.quantity - @quantity.to_i
-
-      if updated_stock < 0
-        flash[:warning] = "Not enough stocks."
-        redirect_to stock_path(stock)
-      end
-    else
-      flash[:error] = "Invalid transaction. Please try again"
-      redirect_to root_path
-    end
+    check_transaction_validity
   end
 
   def create
@@ -65,7 +46,7 @@ class TransactionsController < ApplicationController
     if @transaction.save
       set_current_balance
       update_stock
-      flash[:notice] = "#{@transaction.transaction_type} #{@transaction.company_name} stocks transaction successful."
+      flash[:notice] = "#{@transaction.transaction_type}ing #{@transaction.company_name} stocks transaction successful."
       redirect_to stocks_path
     else
       flash[:error] = "Transaction failed. Please try again."
@@ -110,6 +91,27 @@ class TransactionsController < ApplicationController
       end
     else
       current_user.stocks.create(company_name: @transaction.company_name, quantity: @transaction.quantity)
+    end
+  end
+
+  def check_transaction_validity
+    if @transaction_type == "Buy"
+      future_balance = current_user.balance - @total_price
+      if future_balance < 0
+        flash[:notice] = "Not enough balance"
+        render :quantity
+      end
+    elsif @transaction_type == "Sell"
+      stock = current_user.stocks.where(company_name: @symbol).first
+      updated_stock = stock.quantity - @quantity.to_i
+
+      if updated_stock < 0
+        flash[:warning] = "Not enough stocks."
+        redirect_to "/input_quantity?symbol=#{@symbol}&transaction_type=#{@transaction_type}"
+      end
+    else
+      flash[:error] = "Invalid transaction. Please try again"
+      redirect_to root_path
     end
   end
 end

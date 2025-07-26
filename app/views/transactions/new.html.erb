@@ -1,30 +1,40 @@
 <%= render "pages/account_balance" %>
 <div class="flex flex-col justify-center h-full w-100 mx-auto bg-white shadow-md rounded-lg px-4 py-4">
-<%= form_with model: @transaction do |form| %>
-  <div>
-    <%= form.label :company_name %><br>
-    <%= form.text_field :company_name, value: @symbol, readonly: true %>
-  </div>
+  <%= form_with model: @transaction do |form| %>
+    <div class="mb-4">
+      <span class = "block font-bold mb-1 text-indigo-900"><%= form.label :company_name%>:</span>
+      <%= form.text_field :company_name, value: @symbol, readonly: true, class: "focus:outline-none"  %>
+    </div>
 
-  <div>
-    <%= form.label :stock_price %><br>
-    <%= form.text_area :stock_price, value: @stock_price, readonly: true  %>
-  </div>
+    <div class="mb-4">
+      <span class = "block font-bold mb-1 text-indigo-900"><%= form.label :stock_price%>:</span>
+      $<%= form.text_field :stock_price, value: @stock_price, readonly: true, class: "focus:outline-none" %>
+    </div>
 
-  <div>
-    <%= form.label :quantity %><br>
-    <%= form.text_area :quantity, value: @quantity, readonly: true  %>
-  </div>
+    <div class="mb-4">
+      <span class = "block font-bold mb-1 text-indigo-900"><%= form.label :quantity%>:</span>
+      <%= form.text_field :quantity, value: @quantity, readonly: true, class: "focus:outline-none"   %>
+    </div>
 
-   <div>
-    <%= form.label :total_price %><br>
-    <%= form.text_area :total_price, value: @total_price, readonly: true %>
-  </div>
+    <div class="mb-4">
+      <span class = "block font-bold mb-1 text-indigo-900"><%= form.label :total_price%>:</span>
+      $<%= form.text_field :total_price, value: @total_price, readonly: true, class: "focus:outline-none"  %>
+    </div>
 
-  <%= form.hidden_field :transaction_type, value: @transaction_type %>
+    <%= form.hidden_field :transaction_type, value: @transaction_type %>
 
-  <div>
-    <%= form.submit @transaction_type %>
+    <div class="text-sm text-indigo-800 font-medium mb-4">
+      <%= link_to "Change quantity", "/input_quantity?symbol=#{@symbol}&transaction_type=#{@transaction_type}", class: "hover:underline" %>
+    </div>
+
+    <div>
+      <%= form.submit @transaction_type, 
+        class: "bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md font-medium w-full",
+        data: {turbo_confirm: "Are you sure?"} %>
+    </div>
+  <% end %>
+  
+  <div class="mt-2 text-sm text-indigo-800 font-medium">
+    <%= link_to "Back to search →", "/search", class: "hover:underline" %>
   </div>
-<% end %>
 </div>

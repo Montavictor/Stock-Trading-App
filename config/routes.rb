@@ -12,7 +12,7 @@ Rails.application.routes.draw do
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
 
   # Defines the root path route ("/")
-  resources :pages 
+  resources :pages
 
   namespace :admin do
     root to: "dashboard#index"
@@ -29,6 +29,7 @@ Rails.application.routes.draw do
   resources :transactions
   get '/input_quantity' => 'transactions#input_quantity'
   get '/search' => 'transactions#search'
+
   devise_scope :user do
     get 'users/sign_out' => "devise/sessions#destroy"
   end

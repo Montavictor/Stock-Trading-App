@@ -1,19 +1,37 @@
 <%= render "pages/account_balance" %>
 <div class="flex flex-col justify-center h-full w-100 mx-auto bg-white shadow-md rounded-lg px-4 py-4">
-  <% if @transaction_type == "Sell" %>
-    <p> Current stock: <%= @stock_quantity %>
-  <% end %>
+  
+  <div class="mb-4">
+    <p class = "block font-bold mb-1 text-indigo-900">Company name:</p>
+    <p><%= @symbol %></p>
+  </div>
 
-  <p class = "mb-2 text-xl">Company name: <%= @symbol %> </p>
-  <p class = "mb-2 text-xl">Stock price: <%= @stock_price %> </p>
-  <%= form_with url: new_transaction_path, method: :get, class: "mb-2" do |form| %>
-    <%= form.hidden_field :transaction_type, value: @transaction_type %>
-    <%= form.label :quantity, class: "mb-2 text-xl" %>:
-    <%= form.number_field :quantity, in: 1.0..100, step: 1, class: "mb-2 px-3 py-1 border rounded-md", required: true %>
-    <div> 
-      <%= form.submit "Check Price", class: "bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md font-medium w-full" %>
+  <% if @transaction_type == "Sell" %>
+    <div class="mb-4">
+      <p class = "block font-bold mb-1 text-indigo-900">Current stock quantity:</p>
+      <p><%= @stock_quantity %></p>
     </div>
   <% end %>
+
+  <div class="mb-4">
+    <p class = "block font-bold mb-1 text-indigo-900">Stock price:</p>
+    <p><%= number_to_currency(@stock_price) %></p>
+  </div>
+
+  <%= form_with url: new_transaction_path, method: :get, class: "mb-2" do |form| %>
+    <%= form.hidden_field :transaction_type, value: @transaction_type %>
+    <div class="mb-4">
+      <span class = "block font-bold mb-1 text-indigo-900">How many stocks do you want to <%= @transaction_type.downcase %>?</span>
+      <%= form.number_field :quantity, in: 1.0..100, step: 1, class: "mb-2 px-3 py-1 border rounded-md w-full", required: true, placeholder: "Input quantity here..." %>
+    </div>
+    
+    <div> 
+      <%= form.submit "Calculate Total Price", class: "bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md font-medium w-full" %>
+    </div>
+  <% end %>
+
+  <div class="mt-2 text-sm text-indigo-800 font-medium">
+    <%= link_to "Back to search →", "/search", class: "hover:underline" %>
+  </div>
 </div>
 
-<%= link_to "Back to search", "/search" %>
