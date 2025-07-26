@@ -1,7 +1,9 @@
 class Admin::UsersController < ApplicationController
   before_action :check_if_user
-  before_action :set_user, only: [:show, :edit, :update, :approve,  :destroy ]
+  before_action :set_user, only: [:show, :edit, :update, :approve, :destroy ]
   rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
+  rescue_from ActionController::ParameterMissing, with: :handle_missing_params
+  rescue_from ActiveRecord::RecordInvalid, with: :handle_invalid_record 
 
   def index
     @users = User.all
@@ -23,13 +25,14 @@ class Admin::UsersController < ApplicationController
   
   def approve 
     if @user.update(status: true)
-      AdminMailer.account_approved(@user).deliver_later
+      AdminMailer.account_approved(@user).deliver_now
       flash[:success] = "User Approved"
     else
       flash[:error] = "Failed to approve user"
     end
     redirect_to admin_pending_path
   end
+
 
   def pending
     @users = User.where(status: false, is_admin: false)
@@ -50,12 +53,18 @@ class Admin::UsersController < ApplicationController
     end
   end
   
-  
   def destroy
     @user.destroy
-    flash[:error] = "User Deleted."
-    redirect_to admin_users_path
+    if params[:from] == "pending"
+      AdminMailer.account_declined(@user).deliver_now
+      flash[:warning] = "User Declined."
+      redirect_to admin_pending_path
+    else
+      flash[:error] = "User Deleted."
+      redirect_to admin_users_path
+    end
   end
+
 
   private
 
@@ -70,5 +79,14 @@ class Admin::UsersController < ApplicationController
     flash[:error] = "User not Found."
     redirect_to admin_users_path
   end
+  
+  def handle_missing_params
+    flash[:error] = "Required parameters are missing."
+    redirect_back fallback_location: admin_users_path
+  end
 
+  def handle_invalid_record
+    flash[:error] = "Invalid data provided."
+    redirect_back fallback_location: admin_users_path
+  end
 end

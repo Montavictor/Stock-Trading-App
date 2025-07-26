@@ -33,4 +33,6 @@ Rails.application.routes.draw do
     get 'users/sign_out' => "devise/sessions#destroy"
   end
   root "pages#index"
+  match "*unmatched", to: proc { [404, {}, [File.read(Rails.root.join("public/404.html"))]] }, via: :all
+
 end
