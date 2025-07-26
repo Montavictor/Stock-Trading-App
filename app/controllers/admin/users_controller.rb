@@ -71,6 +71,7 @@ class Admin::UsersController < ApplicationController
   def set_user
     @user = User.find(params[:id])
   end
+  
   def user_params
     params.require(:user).permit(:email, :password, :password_confirmation, :last_name, :first_name, :username, :is_admin, :balance, :status)
   end
@@ -79,7 +80,7 @@ class Admin::UsersController < ApplicationController
     flash[:error] = "User not Found."
     redirect_to admin_users_path
   end
-  
+
   def handle_missing_params
     flash[:error] = "Required parameters are missing."
     redirect_back fallback_location: admin_users_path

@@ -36,10 +36,9 @@ RSpec.describe Admin::UsersController, type: :request do
 
   describe "GET #edit" do
     it "renders the edit template" do
-
-    sign_in admin
-    get edit_admin_user_path(user)
-    expect(response).to have_http_status(200)
+      sign_in admin
+      get edit_admin_user_path(user)
+      expect(response).to have_http_status(200)
     end
   end
 
@@ -63,7 +62,7 @@ RSpec.describe Admin::UsersController, type: :request do
   end
   
   describe "GET admin/pending" do
-  it "lists unapproved users" do
+    it "lists unapproved users" do
       sign_in admin
       get admin_pending_path
       expect(response.body).to include(user.email)
@@ -83,7 +82,7 @@ RSpec.describe Admin::UsersController, type: :request do
   describe "GET #show with invalid id" do
     it "redirects and flashes error" do
       sign_in admin
-      get admin_user_path(-1)
+      get admin_user_path(546)
       expect(response).to redirect_to(admin_users_path)
       expect(flash[:error]).to eq("User not Found.")
     end

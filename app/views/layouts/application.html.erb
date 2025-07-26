@@ -25,10 +25,10 @@
     <!-- Primary Navigation -->
     <nav class="bg-indigo-800 text-white p-4 flex justify-between items-center sticky top-0 z-50 shadow-md">
       <div class="text-xl font-semibold px-4">
-        <a href="/" class="hover:text-indigo-200 transition-colors duration-200">
+        <%= link_to (current_user.is_admin? ? admin_root_path : root_path), class: "hover:text-indigo-200 transition-colors duration-200" do %>
           <i class="fa-solid fa-arrow-trend-up mr-2 text-2xl"></i>
           StockTrading Pro
-        </a>
+        <% end %>
       </div>
       <div class="text-indigo-100">
         <i class="fa-solid fa-user mr-2 text-lg group-hover:text-indigo-700"></i>
