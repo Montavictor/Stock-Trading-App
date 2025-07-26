@@ -6,7 +6,4 @@ class Admin::TransactionsController < ApplicationController
   def index
     @transactions = Transaction.includes(:user).all
   end
-
-  def show
-  end
 end

@@ -1,19 +1,19 @@
 class Admin::UsersController < ApplicationController
   before_action :check_if_user
+  before_action :set_user, only: [:show, :edit, :update, :approve, :destroy ]
   rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
-  # rescue_from ActiveRecord::InvalidForeignKey, with: :render_internal_error
-  # rescue_from ActionController::ParameterMissing, with: :render_internal_error
+  rescue_from ActionController::ParameterMissing, with: :handle_missing_params
+  rescue_from ActiveRecord::RecordInvalid, with: :handle_invalid_record 
 
   def index
     @users = User.all
   end
-
-  def edit
-    @user = User.find(params[:id])
-  end
+  
+  def show; end
+  
+  def edit; end
   
   def update
-    @user = User.find(params[:id])
     if @user.update(user_params)
       flash[:success] = "User Edited"
       redirect_to admin_users_path
@@ -24,15 +24,15 @@ class Admin::UsersController < ApplicationController
   end
   
   def approve 
-    @user = User.find(params[:id])
     if @user.update(status: true)
-      AdminMailer.account_approved(@user).deliver_later
+      AdminMailer.account_approved(@user).deliver_now
       flash[:success] = "User Approved"
     else
       flash[:error] = "Failed to approve user"
     end
     redirect_to admin_pending_path
   end
+
 
   def pending
     @users = User.where(status: false, is_admin: false)
@@ -53,31 +53,40 @@ class Admin::UsersController < ApplicationController
     end
   end
   
-  def show
-    @user = User.find(params[:id])
-  end
-  
   def destroy
-    @user = User.find(params[:id])
     @user.destroy
-    flash[:error] = "User Deleted."
-    redirect_to admin_users_path
+    if params[:from] == "pending"
+      AdminMailer.account_declined(@user).deliver_now
+      flash[:warning] = "User Declined."
+      redirect_to admin_pending_path
+    else
+      flash[:error] = "User Deleted."
+      redirect_to admin_users_path
+    end
   end
+
 
   private
 
+  def set_user
+    @user = User.find(params[:id])
+  end
   def user_params
     params.require(:user).permit(:email, :password, :password_confirmation, :last_name, :first_name, :username, :is_admin, :balance, :status)
   end
 
-  # def render_not_found
-  #   render file: Rails.public_path.join('404.html'), status: :not_found, layout: false
-  # end
   def record_not_found
     flash[:error] = "User not Found."
     redirect_to admin_users_path
   end
-  # def render_internal_error
-  #   redirect_to internal_server_error_path
-  # end
+  
+  def handle_missing_params
+    flash[:error] = "Required parameters are missing."
+    redirect_back fallback_location: admin_users_path
+  end
+
+  def handle_invalid_record
+    flash[:error] = "Invalid data provided."
+    redirect_back fallback_location: admin_users_path
+  end
 end

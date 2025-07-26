@@ -7,7 +7,12 @@ class AdminMailer < ApplicationMailer
   #
   def account_approved(user)
     @greeting = "Hi"
-
+    @user = user
     mail to: user.email
+  end
+
+  def account_declined(user)
+    @user = user
+    mail(to: @user.email, subject: "Your account has been declined")
   end
 end
