@@ -70,8 +70,4 @@ gem "chartkick"
 
 group :development, :test do
   gem 'rspec-rails', '~> 8.0.0'
-<<<<<<< HEAD
 end
-=======
-end
->>>>>>> main
