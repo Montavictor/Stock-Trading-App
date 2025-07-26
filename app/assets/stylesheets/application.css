@@ -78,3 +78,25 @@
   border-collapse: collapse;
   width:100%;
 }
+
+main .bank_balance_card {
+    background: #ffffff;
+    padding: 24px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    border-radius: 30px;
+    width: 200px;
+    text-align: center;
+}
+
+.bank_balance_card p:first-child {
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.balance {
+    font-size: 36px;
+    font-weight: 700;
+}

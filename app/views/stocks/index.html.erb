@@ -1,28 +1,31 @@
-<h1>My Portfolio</h1>
+<h1 class="text-3xl font-bold mb-2 text-indigo-900">My Portfolio</h1>
 
-<table class="table-users">
-  <thead>
-    <tr>
-      <th>Company Name</th>
-      <th>Quantity</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% if @stocks.any? %>
-      <% @stocks.each do |stock| %>
-        <tr>
-          <td><%= stock.company_name %></td>
-          <td><%= stock.quantity %></td>
-          <td>
-            <%= link_to "Sell", input_quantity_path(transaction_type: "Sell", symbol: stock.company_name)%>
-          </td> 
-        </tr>
-      <% end %>
-    <% else %>
+<%= render "pages/account_balance" %>
+<div class="overflow-x-auto bg-white shadow-md rounded-lg w-1/2 mx-auto">
+  <table class="min-w-full table-auto border-separate border-spacing-y-2 text-sm text-gray-700">
+    <thead class="bg-indigo-100">
       <tr>
-        <td colspan="8" class="text-center py-4 text-gray-600">No stocks yet</td>
+        <th class="px-4 py-2 text-left font-lg text-indigo-900 font-bold">Company Name</th>
+        <th class="px-4 py-2 text-left font-lg text-indigo-900 font-bold">Quantity</th>
+        <th class="px-4 py-2 text-left font-lg text-indigo-900 font-bold">Actions</th>
       </tr>
-    <% end %>      
-  </tbody>
-</table>
+    </thead>
+    <tbody class="divide-y divide-gray-200">
+      <% if @stocks.any? %>
+        <% @stocks.each do |stock| %>
+          <tr class="hover:bg-indigo-50 transition-colors duration-200">
+            <td class="px-4 py-2 rounded-l-lg"><%= stock.company_name %></td>
+            <td class="px-4 py-2 rounded-l-lg"><%= stock.quantity %></td>
+            <td class="px-4 py-2 rounded-l-lg">
+              <%= link_to "Sell", input_quantity_path(transaction_type: "Sell", symbol: stock.company_name)%>
+            </td> 
+          </tr>
+        <% end %>
+      <% else %>
+        <tr>
+          <td colspan="8" class="text-center py-4 text-gray-600">No stocks yet</td>
+        </tr>
+      <% end %>      
+    </tbody>
+  </table>
+</div>
