@@ -74,7 +74,7 @@ RSpec.describe "Transactions", type: :request do
       sign_in user
       post transactions_path, params: {transaction: {transaction_type: "buy", company_name: "META", quantity: "10", stock_price: 200.5, total_price: 2005.0}}
       expect(response).to redirect_to("/stocks")
-      expect(flash[:notice]).to eq("#{transaction.transaction_type} #{transaction.company_name} stocks transaction successful.")
+      expect(flash[:notice]).to eq("#{transaction.transaction_type}ing #{transaction.company_name} stocks transaction successful.")
     end
   end
 end
