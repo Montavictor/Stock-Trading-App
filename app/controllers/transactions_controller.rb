@@ -3,7 +3,7 @@ class TransactionsController < ApplicationController
   before_action :get_stock_data, only: [:new]
   
   def index
-    @transactions = current_user.transactions
+    @transactions = current_user.transactions.order(created_at: :asc)
   end
 
   def input_quantity
@@ -99,7 +99,7 @@ class TransactionsController < ApplicationController
       future_balance = current_user.balance - @total_price
       if future_balance < 0
         flash[:notice] = "Not enough balance"
-        render :quantity
+        render :input_quantity
       end
     elsif @transaction_type == "Sell"
       stock = current_user.stocks.where(company_name: @symbol).first
