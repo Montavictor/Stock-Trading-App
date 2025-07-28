@@ -19,7 +19,7 @@
   
       <div class="mb-4">
         <span class = "block font-bold mb-1 text-indigo-900"><%= form.label :total_price%>:</span>
-        $<%= form.text_field :total_price, value: @total_price, readonly: true, class: "focus:outline-none"  %>
+        $<%= form.text_field :total_price, value: @total_price.round(2), readonly: true, class: "focus:outline-none"  %>
       </div>
   
       <%= form.hidden_field :transaction_type, value: @transaction_type %>

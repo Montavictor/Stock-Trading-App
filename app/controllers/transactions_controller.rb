@@ -14,7 +14,7 @@ class TransactionsController < ApplicationController
       redirect_to "/search"
     else
       @symbol = data['Meta Data'].dig('2. Symbol').upcase
-      @stock_price = data.dig('Time Series (Daily)').values.first.dig('1. open').to_f.round(2)
+      @stock_price = data.dig('Time Series (Daily)').values.first.dig('1. open').to_f
       @transaction_type = params[:transaction_type]
       
       check_if_valid_transaction_type
@@ -35,7 +35,7 @@ class TransactionsController < ApplicationController
     @transaction = Transaction.new
     @transaction_type = params[:transaction_type]
     @quantity = params[:quantity]
-    @total_price = (@stock_price * @quantity.to_i).round(2)
+    @total_price = (@stock_price * @quantity.to_i)
 
     check_transaction_validity
   end
