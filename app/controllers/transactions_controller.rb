@@ -99,7 +99,7 @@ class TransactionsController < ApplicationController
       future_balance = current_user.balance - @total_price
       if future_balance < 0
         flash[:notice] = "Not enough balance"
-        render :quantity
+        render :input_quantity
       end
     elsif @transaction_type == "Sell"
       stock = current_user.stocks.where(company_name: @symbol).first

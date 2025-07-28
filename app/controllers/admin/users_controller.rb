@@ -6,7 +6,7 @@ class Admin::UsersController < ApplicationController
   rescue_from ActiveRecord::RecordInvalid, with: :handle_invalid_record 
 
   def index
-    @users = User.all
+    @users = User.order(:id)
   end
   
   def show; end
@@ -32,7 +32,6 @@ class Admin::UsersController < ApplicationController
     end
     redirect_to admin_pending_path
   end
-
 
   def pending
     @users = User.where(status: false, is_admin: false)
@@ -64,7 +63,6 @@ class Admin::UsersController < ApplicationController
       redirect_to admin_users_path
     end
   end
-
 
   private
 

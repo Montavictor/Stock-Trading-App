@@ -10,14 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_07_28_124810) do
+ActiveRecord::Schema[7.2].define(version: 2025_07_28_132708) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "stocks", force: :cascade do |t|
     t.string "company_name"
     t.integer "quantity"
-    t.bigint "user_id", null: false
+    t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_stocks_on_user_id"
@@ -29,7 +29,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_28_124810) do
     t.integer "quantity"
     t.float "stock_price"
     t.float "total_price"
-    t.bigint "user_id", null: false
+    t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_transactions_on_user_id"
@@ -53,11 +53,12 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_28_124810) do
     t.boolean "is_admin"
     t.float "balance"
     t.boolean "status"
+    t.boolean "admin"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "stocks", "users"
-  add_foreign_key "transactions", "users"
+  add_foreign_key "stocks", "users", on_delete: :nullify
+  add_foreign_key "transactions", "users", on_delete: :nullify
 end
