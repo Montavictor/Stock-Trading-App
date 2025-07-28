@@ -4,6 +4,7 @@ class Admin::TransactionsController < ApplicationController
 # TRANSACTION CONTROLLER FOR ADMIN
 
   def index
-    @transactions = Transaction.includes(:user).all
+    @q = Transaction.ransack(params[:q])
+    @transactions = @q.result.includes(:user).page(params[:page]).per(8)
   end
 end

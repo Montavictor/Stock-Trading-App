@@ -9,55 +9,44 @@
 #   end
 
 
-# Sample Users
-# Create Users with balance
-users = User.create!([
-  {
-    email: "john@example.com",
-    password: "password",
-    username: "john123",
-    first_name: "John",
-    last_name: "Doe"
-  },
-  {
-    email: "jane@example.com",
-    password: "password",
-    username: "jane456",
-    first_name: "Jane",
-    last_name: "Smith"
-  },
-  {
-    email: "alice@example.com",
-    password: "password",
-    username: "alice789",
-    first_name: "Alice",
-    last_name: "Jones"
-  },
-  {
-    email: "bob@example.com",
-    password: "password",
-    username: "bob321",
-    first_name: "Bob",
-    last_name: "Brown"
-  }
-])
+# Sample stock and transaction data
+companies = ["Apple", "Google", "Tesla", "Amazon", "Netflix"]
+transaction_types = ["buy", "sell"]
 
+user_ids = [3, 4, 8, 29, 30, 32, 41]
 
+user_ids.each do |user_id|
+  user = User.find_by(id: user_id)
+  next unless user
 
-# Sample Transactions
-Transaction.create!([
-  { transaction_type: "buy", company_name: "Tesla", quantity: 10, stock_price: 200.5, total_price: 2005.0, user: users[1] },
-  { transaction_type: "sell", company_name: "Apple", quantity: 5, stock_price: 150.0, total_price: 750.0, user: users[2] },
-  { transaction_type: "buy", company_name: "Amazon", quantity: 3, stock_price: 3000.0, total_price: 9000.0, user: users[3] },
-  { transaction_type: "sell", company_name: "Netflix", quantity: 8, stock_price: 500.0, total_price: 4000.0, user: users[3] },
-  { transaction_type: "buy", company_name: "Google", quantity: 6, stock_price: 1800.0, total_price: 10800.0, user: users[3] },
-])
+  # Create 2 stock records per user
+  2.times do
+    company = companies.sample
+    quantity = rand(5..50)
 
-# Sample Stocks
-Stock.create!([
-  { company_name: "Tesla", quantity: 10, user: users[1] },
-  { company_name: "Apple", quantity: 5, user: users[1] },
-  { company_name: "Amazon", quantity: 3, user: users[3] },
-  { company_name: "Netflix", quantity: 8, user: users[3] },
-  { company_name: "Google", quantity: 6, user: users[2] },
-])
+    Stock.create!(
+      user: user,
+      company_name: company,
+      quantity: quantity
+    )
+  end
+
+  # Create 3 transaction records per user
+  3.times do
+    company = companies.sample
+    quantity = rand(1..10)
+    price = rand(100.0..1000.0).round(2)
+    total = (price * quantity).round(2)
+
+    Transaction.create!(
+      user: user,
+      transaction_type: transaction_types.sample,
+      company_name: company,
+      quantity: quantity,
+      stock_price: price,
+      total_price: total
+    )
+  end
+end
+
+puts "Seeded stocks and transactions for users."

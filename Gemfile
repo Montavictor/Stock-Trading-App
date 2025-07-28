@@ -71,3 +71,7 @@ gem "chartkick"
 group :development, :test do
   gem 'rspec-rails', '~> 8.0.0'
 end
+
+gem 'kaminari'
+
+gem 'ransack'

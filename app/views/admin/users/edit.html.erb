@@ -4,21 +4,35 @@
   <div class="block font-bold text-lg text-indigo-900">User:</div>
   <div class="block text-md font-semibold mb-4"><%= @user.email %></div>
   <div>
-    <label class="block text-lg font-semibold mb-1 text-indigo-900">Role:</label>
-    <%= form.select :is_admin, [["User", false], ["Admin", true]], prompt: "Select Role", class: "w-full px-3 py-2 border border-gray-200 rounded-md" %>
-    <% @user.errors.full_messages_for(:is_admin).each do |message| %>
-      <p class="text-sm text-red-600 mt-1"><%= message %></p>
+  <label class="block text-lg font-semibold mb-1 text-indigo-900">New Password:</label>
+  <%= form.password_field :password, autocomplete: "new-password", class: "w-full px-3 py-2 border border-gray-200 rounded-md" %>
+  <% @user.errors.full_messages_for(:password).each do |message| %>
+    <p class="text-sm text-red-600 mt-1"><%= message %></p>
     <% end %>
-  </div>
+    </div>
+    
+    <div>
+    <label class="block text-lg font-semibold mb-1 text-indigo-900">Confirm Password:</label>
+    <%= form.password_field :password_confirmation, autocomplete: "new-password", class: "w-full px-3 py-2 border border-gray-200 rounded-md" %>
+    <% @user.errors.full_messages_for(:password_confirmation).each do |message| %>
+      <p class="text-sm text-red-600 mt-1"><%= message %></p>
+      <% end %>
+      </div>    
+      <div>
+      <label class="block text-lg font-semibold mb-1 text-indigo-900">Status:</label>
+      <%= form.select :status, [["Pending", false], ["Approved", true]], prompt: "Select Status", class: "w-full px-3 py-2 border border-gray-200 rounded-md" %>
 
-  <div>
-    <label class="block text-lg font-semibold mb-1 text-indigo-900">Status:</label>
-    <%= form.select :status, [["Pending", false], ["Approved", true]], prompt: "Select Status", class: "w-full px-3 py-2 border border-gray-200 rounded-md" %>
     <% @user.errors.full_messages_for(:status).each do |message| %>
       <p class="text-sm text-red-600 mt-1"><%= message %></p>
     <% end %>
   </div>
-
+      <div>
+        <label class="block text-lg font-semibold mb-1 text-indigo-900">Role:</label>
+        <%= form.select :is_admin, [["User", false], ["Admin", true]], prompt: "Select Role", class: "w-full px-3 py-2 border border-gray-200 rounded-md" %>
+        <% @user.errors.full_messages_for(:is_admin).each do |message| %>
+          <p class="text-sm text-red-600 mt-1"><%= message %></p>
+        <% end %>
+      </div>
   <div>
     <%= form.submit "Update", class: "bg-blue-600 text-white font-semibold px-6 py-2 rounded-md hover:bg-blue-700" %>
   </div>

@@ -6,4 +6,12 @@ class Transaction < ApplicationRecord
   validates :quantity, presence: true
   validates :total_price, presence: true
   validates :transaction_type, presence: true
+
+  def self.ransackable_attributes(auth_object = nil)
+    %w[id user_id stock_symbol quantity price total transaction_type created_at updated_at]
+  end
+    
+  def self.ransackable_associations(auth_object = nil)
+    ["user"]
+  end
 end

@@ -6,7 +6,8 @@ class Admin::UsersController < ApplicationController
   rescue_from ActiveRecord::RecordInvalid, with: :handle_invalid_record 
 
   def index
-    @users = User.order(:id)
+    @q = User.ransack(params[:q])
+    @users = @q.result.order(:id).page(params[:page]).per(8)
   end
   
   def show; end
@@ -34,7 +35,8 @@ class Admin::UsersController < ApplicationController
   end
 
   def pending
-    @users = User.where(status: false, is_admin: false)
+    @q = User.ransack(params[:q])
+    @users = @q.result.where(status: false, is_admin: false).page(params[:page]).per(8)
   end
 
   def new
