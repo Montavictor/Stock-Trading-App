@@ -36,6 +36,8 @@
   <table class="relative min-w-full table-auto border-separate border-spacing-y-2 text-sm text-gray-700 px-2">
     <thead class="bg-indigo-100 sticky top-0">
       <tr>
+        <th class="sticky top-0 px-4 py-2 text-left font-lg text-indigo-900 font-bold">Date</th>
+        <th class="sticky top-0 px-4 py-2 text-left font-lg text-indigo-900 font-bold">Time</th>
         <th class="sticky top-0 px-4 py-2 text-left font-lg text-indigo-900 font-bold">Company Name</th>
         <th class="sticky top-0 px-4 py-2 text-left font-lg text-indigo-900 font-bold">Stock Price</th>
         <th class="sticky top-0 px-4 py-2 text-left font-lg text-indigo-900 font-bold">Quantity</th>
@@ -47,6 +49,8 @@
       <% if @transactions.any? %>
         <% @transactions.each do |transaction| %>
           <tr class="<%= transaction.transaction_type == "Buy" ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' %> hover:outline-1 transition-colors duration-200">
+            <td class="px-4 py-2"><%= transaction.created_at.strftime("%d %b %Y") %></td>
+            <td class="px-4 py-2"><%= transaction.created_at.strftime("%k:%M:%S") %></td>
             <td class="px-4 py-2"><%= transaction.company_name %></td>
             <td class="px-4 py-2"><%= number_to_currency(transaction.stock_price) %></td>
             <td class="px-4 py-2"><%= transaction.quantity %></td>

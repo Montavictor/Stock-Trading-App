@@ -3,7 +3,7 @@ class TransactionsController < ApplicationController
   before_action :get_stock_data, only: [:new]
   
   def index
-    @transactions = current_user.transactions
+    @transactions = current_user.transactions.order(created_at: :asc)
   end
 
   def input_quantity
