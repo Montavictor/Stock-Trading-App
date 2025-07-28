@@ -1,4 +1,4 @@
-<div class="p-6">
+  <h1 class="text-3xl font-bold mb-2 text-indigo-900"><%= "#{@transaction_type} Stocks" %></h1>
   <%= render "pages/account_balance" %>
   <div class="flex flex-col justify-center h-full w-100 mx-auto bg-white shadow-md rounded-lg px-4 py-4">
     <%= form_with model: @transaction do |form| %>
@@ -39,4 +39,3 @@
       <%= link_to "Back to search →", "/search", class: "hover:underline" %>
     </div>
   </div>
-</div>
