@@ -3,25 +3,25 @@
   <%= search_form_for @q, url: admin_users_path, method: :get, class: "mb-6" do |f| %>
   <div class="flex flex-wrap gap-4 items-end">
     <div>
-      <%= f.label :username_cont, "Username", class: "block text-sm font-medium text-indigo-800" %>
-      <%= f.search_field :username_cont, class: "mt-1 p-2 border border-gray-300 rounded-md w-48" %>
+      <%= f.label :username_cont, "Username", class: "block text-sm font-bold text-indigo-800" %>
+      <%= f.search_field :username_cont, class: "mt-1 p-2 border border-gray-300 rounded-md w-48 focus:outline-none focus:ring-2 focus:ring-indigo-300" %>
     </div>
 
     <div>
-      <%= f.label :email_cont, "Email", class: "block text-sm font-medium text-indigo-800" %>
-      <%= f.search_field :email_cont, class: "mt-1 p-2 border border-gray-300 rounded-md w-48" %>
+      <%= f.label :email_cont, "Email", class: "block text-sm font-bold text-indigo-800" %>
+      <%= f.search_field :email_cont, class: "mt-1 p-2 border border-gray-300 rounded-md w-48 focus:outline-none focus:ring-2 focus:ring-indigo-300" %>
     </div>
 
     <div>
-      <%= f.label :is_admin_eq, "Role", class: "block text-sm font-medium text-indigo-800" %>
+      <%= f.label :is_admin_eq, "Role", class: "block text-sm font-bold text-indigo-800" %>
       <%= f.select :is_admin_eq, [["All", nil], ["Admin", true], ["Trader", false]],
-          {}, class: "mt-1 p-2 border border-gray-300 rounded-md w-32" %>
+          {}, class: "mt-1 p-2 border border-gray-300 rounded-md w-32 focus:outline-none focus:ring-2 focus:ring-indigo-300" %>
     </div>
 
     <div>
-      <%= f.label :status_eq, "Status", class: "block text-sm font-medium text-indigo-800" %>
+      <%= f.label :status_eq, "Status", class: "block text-sm font-bold text-indigo-800" %>
       <%= f.select :status_eq, [["All", nil], ["Approved", true], ["Pending", false]],
-          {}, class: "mt-1 p-2 border border-gray-300 rounded-md w-32" %>
+          {}, class: "mt-1 p-2 border border-gray-300 rounded-md w-32 focus:outline-none focus:ring-2 focus:ring-indigo-300" %>
     </div>
 
     <div>
