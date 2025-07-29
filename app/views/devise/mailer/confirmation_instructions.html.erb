@@ -39,15 +39,21 @@
     <div class="container">
       <div class="heading">Confirmation Instructions</div>
       <div class="content">
-        <p>Dear <strong><%= @email %></strong>,</p>
+        <p>Dear <strong><%= @user.first_name %></strong>,</p><br>
+
 
         <p>
           You can confirm your account email through the link below:
         </p>
 
+
         <p>
           <%= link_to 'Confirm my account', confirmation_url(@resource, confirmation_token: @token) %>
-        </p>
+        </p><br>
+
+        
+        <p>Best regards,<br>
+        The Admin Team</p>
       </div>
       <div class="footer">
         This is an automated email. Please do not reply directly to this message.
