@@ -12,16 +12,27 @@
   <div class="bg-white shadow-md rounded-lg border border-gray-100 p-6 flex flex-col justify-between">
     <div>
       <div class="text-md text-gray-500 mb-2">No. of Companies</div>
-      <div class="text-3xl font-bold text-green-600"><%= @stocks.count %></div>
+      <div class="text-3xl font-bold text-green-600"><%= @stocks_total.count %></div>
     </div>
   </div>
 
   <div class="bg-white shadow-md rounded-lg border border-gray-100 p-6 flex flex-col justify-between">
     <div>
       <div class="text-md text-gray-500 mb-2">Total Stocks Owned</div>
-      <div class="text-3xl font-bold text-green-600"><%= @stocks.sum(:quantity) %></div>
+      <div class="text-3xl font-bold text-green-600"><%= @stocks_total.sum(:quantity) %></div>
     </div>
   </div>
+</div>
+
+<div class="mx-auto flex justify-center">
+  <%= search_form_for @q, url: stocks_path, method: :get, class: "mb-4" do |f| %>
+    <div class="flex gap-4">
+      <%= f.label :company_name_cont, "Company Name", class: "block text-sm font-medium text-gray-700 my-auto align-center" %>
+      <%= f.text_field :company_name_cont, class: "border rounded p-1" %>
+
+      <%= f.submit "Search", class: "bg-green-600 text-white px-3 py-1 rounded" %>
+    </div>
+  <% end %>
 </div>
 
 <div class="overflow-x-auto bg-white shadow-md rounded-lg w-1/2 mx-auto overflow-auto max-h-96">

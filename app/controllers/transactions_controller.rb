@@ -3,7 +3,9 @@ class TransactionsController < ApplicationController
   before_action :get_stock_data, only: [:new]
   
   def index
-    @transactions = current_user.transactions.order(created_at: :asc)
+    @q = current_user.transactions.ransack(params[:q])
+    @transactions = @q.result.page(params[:page]).per(5)
+    @transactions_total = current_user.transactions
   end
 
   def input_quantity

@@ -31,7 +31,8 @@
     <div>
       <%= form.submit @transaction_type,
         class: "bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md font-medium w-full",
-        data: {turbo_confirm: "Are you sure?"} %>
+        data: {turbo_confirm: "You are #{@transaction_type.downcase}ing #{@quantity} stocks of #{@symbol} worth #{number_to_currency(@total_price)}. 
+Click \"OK\" to proceed." } %>
     </div>
   <% end %>
 
