@@ -53,11 +53,11 @@
       <tr>
         <th class="sticky top-0 px-4 py-2 text-left font-lg text-indigo-900 font-bold"><%= sort_link(@q, :created_at, "Date") %></th>
         <th class="sticky top-0 px-4 py-2 text-left font-lg text-indigo-900 font-bold"><%= sort_link(@q, :created_at, "Time") %></th>
+        <th class="sticky top-0 px-4 py-2 text-left font-lg text-indigo-900 font-bold">Transaction</th>
         <th class="sticky top-0 px-4 py-2 text-left font-lg text-indigo-900 font-bold"><%= sort_link(@q, :company_name) %></th>
         <th class="sticky top-0 px-4 py-2 text-left font-lg text-indigo-900 font-bold">Stock Price</th>
         <th class="sticky top-0 px-4 py-2 text-left font-lg text-indigo-900 font-bold">Quantity</th>
         <th class="sticky top-0 px-4 py-2 text-left font-lg text-indigo-900 font-bold">Total Price</th>
-        <th class="sticky top-0 px-4 py-2 text-left font-lg text-indigo-900 font-bold">Transaction</th>
       </tr>
     </thead>
     <tbody class="divide-y divide-gray-200">
@@ -66,11 +66,11 @@
           <tr class="<%= transaction.transaction_type == "Buy" ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' %> hover:outline-1 transition-colors duration-200">
             <td class="px-4 py-2"><%= transaction.created_at.strftime("%d %b %Y") %></td>
             <td class="px-4 py-2"><%= transaction.created_at.strftime("%k:%M:%S") %></td>
+            <td class="px-4 py-2"><%= transaction.transaction_type %></td>
             <td class="px-4 py-2"><%= transaction.company_name %></td>
             <td class="px-4 py-2"><%= number_to_currency(transaction.stock_price) %></td>
             <td class="px-4 py-2"><%= transaction.quantity %></td>
             <td class="px-4 py-2"><%= number_to_currency(transaction.total_price) %></td>
-            <td class="px-4 py-2"><%= transaction.transaction_type %></td>
           </tr>
         <% end %>
       <% else %>
