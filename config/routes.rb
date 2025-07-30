@@ -25,8 +25,8 @@ Rails.application.routes.draw do
       end
     end
   end
-  resources :stocks
-  resources :transactions
+  resources :stocks, only: [:index]
+  resources :transactions, except: [:show, :edit]
   get '/input_quantity' => 'transactions#input_quantity'
   get '/search' => 'transactions#search'
 
