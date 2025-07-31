@@ -2,11 +2,6 @@ require 'rails_helper'
 
 RSpec.describe "Transactions", type: :request do
 
-  before do
-    @stock_price = 202.5
-    @quantity = 5
-  end
-
   let!(:user) { User.create!(
   email: "test@test.com",
   password: "test123",
@@ -60,14 +55,6 @@ RSpec.describe "Transactions", type: :request do
       expect(response).to have_http_status(200)
     end
   end
-
-  # describe "GET /transactions/new" do
-  #   it "returns new transaction page" do
-  #     sign_in user
-  #     get new_transaction_path, params: transaction
-  #     expect(response).to have_http_status(200)
-  #   end
-  # end
 
    describe "GET /transactions/new" do
     it "create new transaction" do
