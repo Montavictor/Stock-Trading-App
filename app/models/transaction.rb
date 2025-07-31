@@ -8,8 +8,11 @@ class Transaction < ApplicationRecord
   validates :transaction_type, presence: true
 
   def self.ransackable_attributes(auth_object = nil)
-    %w[id user_id stock_symbol quantity price total transaction_type created_at updated_at company_name]
-  end 
+    %w[
+      id user_id quantity stock_price total_price
+      transaction_type company_name created_at updated_at
+    ]
+  end
     
   def self.ransackable_associations(auth_object = nil)
     ["user"]

@@ -56,8 +56,15 @@ RSpec.describe Admin::UsersController, type: :request do
       sign_in admin
       patch approve_admin_user_path(user)
       user.reload
-      expect(user.reload.status).to eq(true)
+      expect {
+        patch approve_admin_user_path(user)
+      }.to change { ActionMailer::Base.deliveries.count }.by(1)
+
+      mail = ActionMailer::Base.deliveries.last
+      expect(mail.to).to include(user.email)
+      expect(mail.subject).to include("approved")
       expect(flash[:success]).to eq("User Approved")
+      expect(user.reload.status).to eq(true)
     end
   end
   
