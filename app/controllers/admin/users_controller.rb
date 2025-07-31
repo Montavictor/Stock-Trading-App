@@ -36,7 +36,7 @@ class Admin::UsersController < ApplicationController
 
   def pending
     @q = User.ransack(params[:q])
-    @users = @q.result.where(status: false, is_admin: false).page(params[:page]).per(8)
+    @users = @q.result.where(status: false, is_admin: false).order(:created_at).page(params[:page]).per(8)
   end
 
   def new
