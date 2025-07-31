@@ -3,15 +3,15 @@ require 'rails_helper'
 RSpec.describe "Transactions", type: :request do
 
   let!(:user) { User.create!(
-  email: "test@test.com",
-  password: "test123",
-  username: "testuser",
-  first_name: "Test",
-  last_name: "Test",
-  balance: 1000000,
-  status: true,
-  is_admin: false,
-  confirmed_at: Time.now
+    email: "test@test.com",
+    password: "test123",
+    username: "testuser",
+    first_name: "Test",
+    last_name: "Test",
+    balance: 1000000,
+    status: true,
+    is_admin: false,
+    confirmed_at: Time.now
   )} 
 
   let!(:transaction) {
@@ -56,7 +56,7 @@ RSpec.describe "Transactions", type: :request do
     end
   end
 
-   describe "GET /transactions/new" do
+  describe "GET /transactions/new" do
     it "create new transaction" do
       sign_in user
       post transactions_path, params: {transaction: {transaction_type: "buy", company_name: "META", quantity: "10", stock_price: 200.5, total_price: 2005.0}}
