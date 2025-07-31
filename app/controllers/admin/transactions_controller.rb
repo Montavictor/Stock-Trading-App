@@ -5,7 +5,7 @@ class Admin::TransactionsController < ApplicationController
 
   def index
     @q = Transaction.ransack(params[:q])
-    @transactions = @q.result.includes(:user).page(params[:page]).per(8)
+    @transactions = @q.result.includes(:user).page(params[:page]).order(:created_at).per(8)
   end
   
   def destroy
