@@ -5,10 +5,12 @@ class Admin::TransactionsController < ApplicationController
 
   def index
     @q = Transaction.ransack(params[:q])
-    @transactions = @q.result.includes(:user).page(params[:page]).order(:created_at).per(8)
+    @transactions = @q.result.includes(:user)
+                      .order(created_at: :desc)
+                      .page(params[:page]).per(6)
   end
   
-  def destroy
+  def destroy 
     @transaction = Transaction.find(params[:id])
     @transaction.destroy
     redirect_to admin_transactions_path, notice: "Transaction deleted successfully."

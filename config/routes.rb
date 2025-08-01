@@ -17,8 +17,8 @@ Rails.application.routes.draw do
   namespace :admin do
     root to: "dashboard#index"
   # transactions of ALL users  
-    get "pending", controller: "users", action: :pending
-    resources :transactions, only: [:index, :show, :destroy]
+    get "pending", controller: "users", as: :pending
+    resources :transactions, only: [:index, :destroy]
     resources :users do
       member do
         patch :approve

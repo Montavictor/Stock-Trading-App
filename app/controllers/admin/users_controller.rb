@@ -7,7 +7,7 @@ class Admin::UsersController < ApplicationController
 
   def index
     @q = User.ransack(params[:q])
-    @users = @q.result.order(:id).page(params[:page]).per(8)
+    @users = @q.result.order(:id).page(params[:page]).per(7)
   end
   
   def show; end
@@ -36,7 +36,7 @@ class Admin::UsersController < ApplicationController
 
   def pending
     @q = User.ransack(params[:q])
-    @users = @q.result.where(status: false, is_admin: false).order(:created_at).page(params[:page]).per(8)
+    @users = @q.result.pending.page(params[:page]).per(7)
   end
 
   def new

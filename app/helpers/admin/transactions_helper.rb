@@ -1,6 +1,13 @@
 module Admin::TransactionsHelper
   def render_user(user)
-    user&.username || "Deleted User"
+    if user
+      content_tag(:div) do
+        concat content_tag(:div, user.username, class: "font-medium text-indigo-800")
+        concat content_tag(:div, user.email, class: "text-xs text-gray-600")
+      end
+    else
+      "Deleted User"
+    end
   end
 
   def transaction_user_link(user)
