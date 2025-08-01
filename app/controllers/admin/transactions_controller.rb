@@ -9,10 +9,4 @@ class Admin::TransactionsController < ApplicationController
                       .order(created_at: :desc)
                       .page(params[:page]).per(6)
   end
-  
-  def destroy 
-    @transaction = Transaction.find(params[:id])
-    @transaction.destroy
-    redirect_to admin_transactions_path, notice: "Transaction deleted successfully."
-  end
 end
