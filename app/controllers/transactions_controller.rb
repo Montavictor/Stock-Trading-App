@@ -15,14 +15,19 @@ class TransactionsController < ApplicationController
       flash[:warning] = "Please enter valid symbol"
       redirect_to "/search"
     else
-      @symbol = data['Meta Data'].dig('2. Symbol').upcase
-      @stock_price = data.dig('Time Series (Daily)').values.first.dig('1. open').to_f
-      @transaction_type = params[:transaction_type]
-      
-      check_if_valid_transaction_type
-      
-      session[:company_name] = @symbol
-      session[:stock_price] = @stock_price
+      if data['Meta Data'].nil?
+        flash[:warning] = "Our server is currently experiencing an issue. Please try again in a while."
+        redirect_to root_path
+      else
+        @symbol = data['Meta Data'].dig('2. Symbol').upcase
+        @stock_price = data.dig('Time Series (Daily)').values.first.dig('1. open').to_f
+        @transaction_type = params[:transaction_type]
+        
+        check_if_valid_transaction_type
+        
+        session[:company_name] = @symbol
+        session[:stock_price] = @stock_price
+      end
     end
     
     if @transaction_type == "Sell"
@@ -37,9 +42,8 @@ class TransactionsController < ApplicationController
     @transaction = Transaction.new
     @transaction_type = params[:transaction_type]
     @quantity = params[:quantity]
-    @total_price = (@stock_price * @quantity.to_i)
-
-    check_transaction_validity
+    
+    check_parameters_validity
   end
 
   def create
@@ -96,12 +100,22 @@ class TransactionsController < ApplicationController
     end
   end
 
+  def check_parameters_validity
+    if @quantity.to_i != 0 
+      @total_price = (@stock_price * @quantity.to_i)
+      check_transaction_validity
+    else
+      flash[:error] = "Invalid quantity. Please input again"
+      redirect_to "/input_quantity?symbol=#{@symbol}&transaction_type=#{@transaction_type}"
+    end
+  end
+
   def check_transaction_validity
     if @transaction_type == "Buy"
       future_balance = current_user.balance - @total_price
       if future_balance < 0
         flash[:notice] = "Not enough balance"
-        render :input_quantity
+        redirect_to "/input_quantity?symbol=#{@symbol}&transaction_type=#{@transaction_type}"
       end
     elsif @transaction_type == "Sell"
       stock = current_user.stocks.where(company_name: @symbol).first
