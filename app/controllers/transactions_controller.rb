@@ -11,6 +11,11 @@ class TransactionsController < ApplicationController
   def input_quantity
     data = StockPriceApi.get_stock_price(params[:symbol])
 
+    if !data
+      flash[:warning] = "Our server is currently experiencing an issue. Please try again in a few minutes."
+      redirect_to root_path
+    end
+
     if data['Error Message']
       flash[:warning] = "Please enter valid symbol"
       redirect_to "/search"
@@ -37,9 +42,8 @@ class TransactionsController < ApplicationController
     @transaction = Transaction.new
     @transaction_type = params[:transaction_type]
     @quantity = params[:quantity]
-    @total_price = (@stock_price * @quantity.to_i)
-
-    check_transaction_validity
+    
+    check_parameters_validity
   end
 
   def create
@@ -96,12 +100,22 @@ class TransactionsController < ApplicationController
     end
   end
 
+  def check_parameters_validity
+    if @quantity.to_i != 0 
+      @total_price = (@stock_price * @quantity.to_i)
+      check_transaction_validity
+    else
+      flash[:error] = "Invalid quantity. Please input again"
+      redirect_to "/input_quantity?symbol=#{@symbol}&transaction_type=#{@transaction_type}"
+    end
+  end
+
   def check_transaction_validity
     if @transaction_type == "Buy"
       future_balance = current_user.balance - @total_price
       if future_balance < 0
         flash[:notice] = "Not enough balance"
-        render :input_quantity
+        redirect_to "/input_quantity?symbol=#{@symbol}&transaction_type=#{@transaction_type}"
       end
     elsif @transaction_type == "Sell"
       stock = current_user.stocks.where(company_name: @symbol).first
