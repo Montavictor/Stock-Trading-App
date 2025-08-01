@@ -77,6 +77,15 @@ RSpec.describe "Transactions", type: :request do
       expect(response.body).to include("$555.23")
     end
 
+    it "redirects to root_path if API call failed" do
+      test_data = { "Meta Data" => nil}
+      allow(StockPriceApi).to receive(:get_stock_price).and_return(test_data)
+      get input_quantity_path, params: {symbol: "MSFT", transaction_type: "Buy"}
+
+      expect(response).to have_http_status(302)
+      expect(flash[:warning]).to eq("Our server is currently experiencing an issue. Please try again in a while.")
+    end
+
     it "redirects with flash for invalid symbol" do
       get input_quantity_path, params: {symbol: "invalid"}
 

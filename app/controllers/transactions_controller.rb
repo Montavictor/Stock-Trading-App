@@ -11,23 +11,23 @@ class TransactionsController < ApplicationController
   def input_quantity
     data = StockPriceApi.get_stock_price(params[:symbol])
 
-    if !data
-      flash[:warning] = "Our server is currently experiencing an issue. Please try again in a few minutes."
-      redirect_to root_path
-    end
-
     if data['Error Message']
       flash[:warning] = "Please enter valid symbol"
       redirect_to "/search"
     else
-      @symbol = data['Meta Data'].dig('2. Symbol').upcase
-      @stock_price = data.dig('Time Series (Daily)').values.first.dig('1. open').to_f
-      @transaction_type = params[:transaction_type]
-      
-      check_if_valid_transaction_type
-      
-      session[:company_name] = @symbol
-      session[:stock_price] = @stock_price
+      if data['Meta Data'].nil?
+        flash[:warning] = "Our server is currently experiencing an issue. Please try again in a while."
+        redirect_to root_path
+      else
+        @symbol = data['Meta Data'].dig('2. Symbol').upcase
+        @stock_price = data.dig('Time Series (Daily)').values.first.dig('1. open').to_f
+        @transaction_type = params[:transaction_type]
+        
+        check_if_valid_transaction_type
+        
+        session[:company_name] = @symbol
+        session[:stock_price] = @stock_price
+      end
     end
     
     if @transaction_type == "Sell"
