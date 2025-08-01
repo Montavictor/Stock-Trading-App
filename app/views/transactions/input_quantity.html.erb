@@ -23,7 +23,7 @@
     <%= form.hidden_field :transaction_type, value: @transaction_type %>
     <div class="mb-4">
       <span class = "block font-bold mb-1 text-indigo-900">How many stocks do you want to <%= @transaction_type.downcase %>?</span>
-      <%= form.number_field :quantity, in: 1.0..100, step: 1, class: "mb-2 px-3 py-1 border rounded-md w-full", required: true, placeholder: "Input quantity here..." %>
+      <%= form.number_field :quantity, in: 1.0..1000, step: 1, class: "mb-2 px-3 py-1 border rounded-md w-full", required: true, placeholder: "Input quantity here..." %>
     </div>
 
     <div>
