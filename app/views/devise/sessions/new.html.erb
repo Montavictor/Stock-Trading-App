@@ -1,43 +1,44 @@
-<div class="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-  <div class="sm:mx-auto sm:w-full sm:max-w-md">
-    <div class="text-3xl font-extrabold px-4 text-center text-blue-700">
-      <i class="fa-solid fa-arrow-trend-up mr-2 text-2xl"></i>
-      StockTrading Pro
+<div class="min-h-screen bg-gradient-to-b from-green-50 to-white flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+  <div class="sm:mx-auto sm:w-full sm:max-w-md text-center">
+    <div class="text-4xl font-extrabold text-green-600 flex items-center justify-center gap-2 mb-2">
+      <i class="fa-solid fa-seedling animate-grow-loop origin-bottom text-green-500 text-5xl"></i>
+      Tradeleaf
     </div>
+    <p class="mt-2 text-sm text-gray-500">Grow your wealth, one trade at a time.</p>
   </div>
 
   <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-    <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+    <div class="bg-white py-8 px-6 shadow-lg sm:rounded-lg sm:px-10 border border-green-100">
       <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-        <div class="field mb-2">
-          <%= f.label :email, class: "block text-sm font-medium leading-5  text-gray-700" %>
-          <div class="mt-1 relative rounded-md shadow-sm">
-            <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5"%> 
+        <div class="mb-4">
+          <%= f.label :email, class: "block text-sm font-medium text-gray-700" %>
+          <div class="mt-1">
+            <%= f.email_field :email, autofocus: true, placeholder: "Enter Email Address", autocomplete: "email", class: "block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 hover:border-green-500 focus:ring-green-500 focus:outline-none focus:ring-1 focus:ring-green-400 sm:text-sm" %>
           </div>
         </div>
 
-        <div class="field mb-2">
-          <%= f.label :password, class: "block text-sm font-medium leading-5  text-gray-700" %>
-          <div class="mt-1 relative rounded-md shadow-sm">
-            <%= f.password_field :password, autocomplete: "current-password", class: "appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5"  %>
+        <div class="mb-4">
+          <%= f.label :password, class: "block text-sm font-medium text-gray-700" %>
+          <div class="mt-1">
+            <%= f.password_field :password, placeholder: "Enter Password", autocomplete: "current-password", class: "block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 hover:border-green-500 focus:ring-green-500 focus:outline-none focus:ring-1 focus:ring-green-400 sm:text-sm" %>
           </div>
         </div>
-        <div class="mt-4 flex items-center justify-between mb-4">
-          <% if devise_mapping.rememberable? %>
-            <div class="field flex items-center">
-              <%= f.check_box :remember_me, class: "form-checkbox h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"%>
-              <%= f.label :remember_me, class: "ml-2 block text-sm leading-5 text-gray-900" %>
-            </div>
-          <% end %>
-          <%- if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations' %>
-            <div class="text-sm leading-5">
-              <%= link_to "Forgot your password?", new_password_path(resource_name), class:"font-medium text-blue-500 hover:text-blue-500 focus:outline-none focus:underline transition ease-in-out duration-150"%>
-            </div>
-          <% end %>
-        </div>
 
-        <div class="actions mb-2">
-          <%= f.submit "Log in", class: "w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out"%>
+        <% if devise_mapping.rememberable? %>
+          <div class="flex items-center mb-4">
+            <%= f.check_box :remember_me, class: "h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded" %>
+            <%= f.label :remember_me, class: "ml-2 block text-sm text-gray-900" %>
+          </div>
+        <% end %>
+
+        <div class="mb-6">
+          <%= f.submit "Log In",  class: "w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500" %>
+        </div>
+      <% end %>
+
+      <% if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations' %>
+        <div class="text-sm text-center">
+          <%= link_to "Forgot your password?", new_password_path(resource_name), class:"text-green-600 hover:underline" %>
         </div>
       <% end %>
 
@@ -45,3 +46,19 @@
     </div>
   </div>
 </div>
+
+<!-- Animation CSS -->
+<style>
+  @keyframes growLoop {
+    0%, 100% {
+      transform: scale(0.95);
+    }
+    50% {
+      transform: scale(1.15);
+    }
+  }
+
+  .animate-grow-loop {
+    animation: growLoop 3s ease-in-out infinite;
+  }
+</style>
