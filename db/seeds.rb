@@ -8,45 +8,73 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 
+require 'dotenv/load'  # This ensures .env is loaded
 
-# Sample stock and transaction data
-companies = ["Apple", "Google", "Tesla", "Amazon", "Netflix"]
-transaction_types = ["buy", "sell"]
+admin_email = ENV['ADMIN_EMAIL']
+admin_password = ENV['ADMIN_PASSWORD']
 
-user_ids = [3, 4, 8, 29, 30, 32, 41]
+unless User.exists?(email: admin_email)
+  User.create!(
+    email: admin_email,
+    password: admin_password,
+    username: "admin",
+    first_name: "Admin",
+    last_name: "Admin",
+    is_admin: true,
+    balance: 0,
+    status: true
+  )
+end
 
-user_ids.each do |user_id|
-  user = User.find_by(id: user_id)
-  next unless user
+sample_users = [
+  { email: "user1@example.com", username: "user1", first_name: "Alice", last_name: "Smith", balance: 5000.0 },
+  { email: "user2@example.com", username: "user2", first_name: "Bob", last_name: "Johnson", balance: 3000.0 },
+  { email: "user3@example.com", username: "user3", first_name: "Charlie", last_name: "Lee", balance: 7000.0 }
+]
 
-  # Create 2 stock records per user
-  2.times do
-    company = companies.sample
-    quantity = rand(5..50)
-
-    Stock.create!(
-      user: user,
-      company_name: company,
-      quantity: quantity
-    )
-  end
-
-  # Create 3 transaction records per user
-  3.times do
-    company = companies.sample
-    quantity = rand(1..10)
-    price = rand(100.0..1000.0).round(2)
-    total = (price * quantity).round(2)
-
-    Transaction.create!(
-      user: user,
-      transaction_type: transaction_types.sample,
-      company_name: company,
-      quantity: quantity,
-      stock_price: price,
-      total_price: total
-    )
+sample_users.each do |user_data|
+  User.find_or_create_by!(email: user_data[:email]) do |user|
+    user.password = "password123"
+    user.username = user_data[:username]
+    user.first_name = user_data[:first_name]
+    user.last_name = user_data[:last_name]
+    user.is_admin = false
+    user.status = true
+    user.balance = user_data[:balance]
   end
 end
 
-puts "Seeded stocks and transactions for users."
+# Create Sample Stocks
+users = User.where(is_admin: false)
+
+stock_data = [
+  { company_name: "Apple", quantity: 10 },
+  { company_name: "Google", quantity: 5 },
+  { company_name: "Tesla", quantity: 15 }
+]
+
+users.each do |user|
+  stock_data.each do |stock|
+    Stock.find_or_create_by!(user: user, company_name: stock[:company_name]) do |s|
+      s.quantity = stock[:quantity]
+    end
+  end
+end
+
+# Create Sample Transactions
+transaction_types = ["Buy", "Sell"]
+
+users.each do |user|
+  3.times do
+    Transaction.create!(
+      user: user,
+      transaction_type: transaction_types.sample,
+      company_name: ["Apple", "Google", "Tesla"].sample,
+      quantity: rand(1..5),
+      stock_price: rand(100.0..1000.0).round(2),
+      total_price: -> (t) { (t[:stock_price] * t[:quantity]).round(2) }.call(
+        { stock_price: rand(100.0..1000.0).round(2), quantity: rand(1..5) }
+      )
+    )
+  end
+end
