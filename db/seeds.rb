@@ -63,18 +63,19 @@ end
 
 # Create Sample Transactions
 transaction_types = ["Buy", "Sell"]
-
-users.each do |user|
-  3.times do
-    Transaction.create!(
-      user: user,
-      transaction_type: transaction_types.sample,
-      company_name: ["Apple", "Google", "Tesla"].sample,
-      quantity: rand(1..5),
-      stock_price: rand(100.0..1000.0).round(2),
-      total_price: -> (t) { (t[:stock_price] * t[:quantity]).round(2) }.call(
-        { stock_price: rand(100.0..1000.0).round(2), quantity: rand(1..5) }
+if Transaction.count == 0
+  users.each do |user|
+    3.times do
+      Transaction.create!(
+        user: user,
+        transaction_type: transaction_types.sample,
+        company_name: ["Apple", "Google", "Tesla"].sample,
+        quantity: rand(1..5),
+        stock_price: rand(100.0..1000.0).round(2),
+        total_price: -> (t) { (t[:stock_price] * t[:quantity]).round(2) }.call(
+          { stock_price: rand(100.0..1000.0).round(2), quantity: rand(1..5) }
+        )
       )
-    )
+    end
   end
 end
