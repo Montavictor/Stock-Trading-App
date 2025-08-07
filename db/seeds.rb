@@ -8,7 +8,7 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 
-require 'dotenv/load'  # This ensures .env is loaded
+
 
 admin_email = ENV['ADMIN_EMAIL']
 admin_password = ENV['ADMIN_PASSWORD']
