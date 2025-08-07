@@ -53,6 +53,10 @@ Rails.application.configure do
 
   # Skip http-to-https redirect for the default health check endpoint.
   # config.ssl_options = { redirect: { exclude: ->(request) { request.path == "/up" } } }
+  config.action_mailer.default_url_options = {
+  host: 'stock-trading-app-1-xex7.onrender.com',
+  protocol: 'https'
+}
 
   # Log to STDOUT by default
   config.logger = ActiveSupport::Logger.new(STDOUT)
