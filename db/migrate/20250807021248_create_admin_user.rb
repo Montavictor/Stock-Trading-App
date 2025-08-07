@@ -12,7 +12,7 @@ class CreateAdminUser < ActiveRecord::Migration[7.2]
       status: true
     )
     
-    user.skip_confirmation! 
+    user.skip_confirmation! if user.respond_to?(:skip_confirmation!)
     user.save!
   end
 
