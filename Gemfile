@@ -69,7 +69,7 @@ gem "groupdate"
 gem "chartkick"
 
 group :development, :test do
-  gem 'rspec-rails', '~> 8.0.0'
+  gem 'rspec-rails', '~> 8.0.2'
 end
 
 gem 'kaminari'
